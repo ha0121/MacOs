@@ -1,0 +1,459 @@
+@keyframes centerTitleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.center-title {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.center-title.animated {
+  animation: centerTitleFadeIn 1.1s cubic-bezier(.6,-0.01,.4,1.01) forwards;
+}
+@keyframes centerTitleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -10%) scale(0.98);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -60%) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+/* Hiệu ứng hover cho desktop icon giống macOS */
+.desktop-icons .icon:hover {
+  box-shadow: 0 0 0 2px rgba(80,80,80,0.18), 0 2px 8px rgba(80,80,80,0.10);
+  border-radius: 8px;
+  background: rgba(200,200,200,0.10);
+}
+.desktop-icons .icon span {
+  display: block;
+  background: none;
+  color: #222;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-top: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+.desktop-icons .icon:hover span {
+  background: #1677ff;
+  color: #fff;
+}
+/* Hiện text in nghiêng khi hover vào icon project */
+.desktop-icons .icon.folder:hover::after {
+  content: "double click";
+  display: block;
+  font-style: italic;
+  color: #444;
+  font-size: 15px;
+  margin-top: 2px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+/* Vị trí mặc định cho từng icon desktop */
+.desktop-icons {
+  position: relative;
+}
+.desktop-icons .icon {
+  position: absolute;
+}
+.desktop-icons .icon.file {
+  left: 45%; top: 20%; /* Resume.pdf */
+}
+.desktop-icons .icon.folder:nth-child(2) {
+  left: 8%; top: 40%; /* About Me */
+}
+.desktop-icons .icon.folder:nth-child(3) {
+  left: 45%; top: 8%; /* ZETA APPLICATION */
+}
+.desktop-icons .icon.folder#project01-icon {
+  left: 55%; top: 65%; /* BLUES QUIZ - CHELSEA FC X FPT */
+}
+.desktop-icons .icon.folder:nth-child(5) {
+  left: 35%; top: 60%; /* Project 03 (Leafpress) */
+}
+.desktop-icons .icon.folder:nth-child(6) {
+  left: 65%; top: 8%; /* Project 04 (Amazon) */
+}
+.desktop-icons .icon.trash {
+  right: 2%; bottom: 8%; /* Don't Look */
+  left: auto;
+  top: auto;
+}
+/* Modal Spotify */
+.spotify-modal {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.12);
+  z-index: 120;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+.spotify-content {
+  background: #222;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(80,80,80,0.18);
+  padding: 18px 18px 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 32px 32px 0;
+  pointer-events: auto;
+}
+.spotify-modal.show .spotify-content {
+  animation: finderFadeIn 0.35s cubic-bezier(.4,1.6,.4,1) forwards;
+}
+.spotify-modal.hide .spotify-content {
+  animation: finderFadeOut 0.35s cubic-bezier(.4,1.6,.4,1) forwards;
+}
+/* Animation khi tắt modal Finder */
+.finder-modal.hide .finder-content {
+  animation: finderFadeOut 0.35s cubic-bezier(.4,1.6,.4,1) forwards;
+}
+@keyframes finderFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95) translateY(40px);
+  }
+}
+/* Animation cho modal Finder */
+.finder-modal.show .finder-content {
+  animation: finderFadeIn 0.35s cubic-bezier(.4,1.6,.4,1) forwards;
+}
+@keyframes finderFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+/* Modal Finder cho Project 01 */
+.finder-modal {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.08);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.finder-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(80,80,80,0.18);
+  width: 1200px;
+  max-width: 99vw;
+  min-height: 500px;
+  overflow: hidden;
+  position: relative;
+}
+.finder-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.finder-dot {
+  display: inline-block;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.finder-dot.red { background: #ff5f57; }
+.finder-dot.yellow { background: #febc2e; }
+.finder-dot.green { background: #28c840; }
+.finder-title {
+  font-weight: bold;
+  margin-left: 16px;
+  font-size: 16px;
+}
+.finder-close {
+  position: absolute;
+  right: 18px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #888;
+  cursor: pointer;
+}
+.finder-body {
+  display: flex;
+  min-height: 260px;
+}
+.finder-sidebar {
+  width: 120px;
+  background: #f7f7f7;
+  border-right: 1px solid #eee;
+  padding: 16px 10px;
+  font-size: 14px;
+}
+.finder-section {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #888;
+}
+.finder-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+.finder-sidebar li {
+  margin-bottom: 4px;
+  color: #222;
+}
+.finder-main {
+  flex: 1;
+  padding: 24px 18px 24px 18px;
+  display: block;
+  max-height: 480px;
+  overflow-y: auto;
+}
+.finder-main-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+.finder-sub {
+  font-size: 13px;
+  color: #888;
+}
+.finder-folders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 38px;
+  margin-top: 24px;
+  justify-content: flex-start;
+}
+.finder-folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 120px;
+  font-size: 15px;
+  color: #222;
+}
+.finder-folder img {
+  display: block;
+  margin: 0 auto 6px auto;
+}
+.finder-folder div {
+  text-align: center;
+  margin-top: 0;
+}
+
+/* Spacing for nav-icons images */
+.nav-icons img {
+  margin-right: 4px;
+}
+.nav-icons img:last-child {
+  margin-right: 0;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #fff;
+  min-height: 100vh;
+  position: relative;
+}
+.grid-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: linear-gradient(#e0e0e0 1px, transparent 1px), linear-gradient(90deg, #e0e0e0 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 0;
+}
+.navbar {
+  width: 100vw;
+  height: 40px;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 10;
+  font-size: 16px;
+  box-shadow: 0 1px 4px #eee;
+}
+.apple-logo {
+  font-size: 20px;
+  margin-right: 10px;
+}
+.nav-title {
+  font-weight: bold;
+  margin-right: 20px;
+  text-decoration: underline;
+  color: #222;
+}
+.nav-link {
+  margin-right: 15px;
+  color: #222;
+  text-decoration: none;
+}
+.nav-right {
+  margin-left: auto;
+  margin-right: 32px;
+  display: flex;
+  align-items: center;
+}
+.nav-icons span {
+  margin-right: 8px;
+}
+.nav-date {
+  margin-left: 16px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
+}
+.sticky-note {
+  position: absolute;
+  top: 60px; left: 30px;
+  width: 260px;
+  background: #fff8a6;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #eee;
+  padding: 16px;
+  font-size: 16px;
+  z-index: 2;
+}
+.sticky-note ul {
+  padding-left: 18px;
+  margin: 8px 0 0 0;
+}
+.sticky-note li {
+  margin-bottom: 4px;
+}
+.sticky-note .done {
+  text-decoration: line-through;
+  color: #888;
+}
+.center-title {
+  position: absolute;
+  top: 40%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+}
+.center-title span {
+  font-size: 24px;
+  color: #222;
+}
+.center-title h1 {
+  font-family: 'Georgia', serif;
+  font-size: 80px;
+  font-style: italic;
+  margin: 0;
+  color: #222;
+}
+.desktop-icons {
+  position: absolute;
+  width: 100vw; height: 100vh;
+  top: 0; left: 0;
+  z-index: 2;
+}
+.icon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+  cursor: pointer;
+}
+.icon img {
+  width: 48px;
+  margin-bottom: 4px;
+}
+.icon span {
+  font-size: 14px;
+  color: #222;
+  text-align: center;
+}
+.icon.file { top: 300px; left: 120px; }
+.icon.folder { top: 400px; left: 220px; }
+.icon.trash { top: 600px; right: 80px; }
+.dock {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(120,120,120,0.35);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px 4px rgba(80,80,80,0.18);
+  padding: 4px 10px;
+  display: flex;
+  gap: 4px;
+  z-index: 20;
+  align-items: center;
+  min-width: 600px;
+  max-width: 90vw;
+}
+.dock img {
+  width: 54px;
+  height: 54px;
+  margin: 0 0px;
+  border-radius: 2px;
+  background: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  transition: transform 0.32s cubic-bezier(.4,1.6,.4,1), box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(80,80,80,0.10);
+}
+.dock img:hover {
+  transform: scale(1.35) translateY(-8px);
+  box-shadow: none !important;
+  background: none !important;
+  filter: none !important;
+  outline: none !important;
+}
+.dock-spotify {
+  position: relative;
+  display: inline-block;
+}
+.dock-spotify img {
+  display: block;
+}
+.dock-dot {
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: #111;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(80,80,80,0.18);
+}
