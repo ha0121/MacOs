@@ -20,10 +20,67 @@
   text-align: center;
   z-index: 1;
   opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
+  display: inline-block;
+  /* smooth hover animation: only transform/opacity/transforms, no color changes */
+  transition: opacity 0.3s, transform 0.28s cubic-bezier(.2,.9,.2,1);
+}
+
+/* Hover effect: lift, slight scale (no color or text-shadow changes) */
+.center-title:hover h1 {
+  transform: translateY(-6px) scale(1.02);
 }
 .center-title.animated {
   animation: centerTitleFadeIn 1.1s cubic-bezier(.6,-0.01,.4,1.01) forwards;
+}
+/* subtitle and headline staggered animations */
+.center-subtitle {
+  font-family: 'Merriweather', Georgia, serif;
+  font-size: 22px;
+  color: #222;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+.center-title.animated .center-subtitle {
+  animation: subtitleIn 0.6s ease forwards;
+}
+@keyframes subtitleIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.center-title h1 {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(.2,.9,.2,1);
+}
+.center-title.animated h1 {
+  animation: headlineIn 0.9s cubic-bezier(.2,.9,.2,1) 0.35s forwards;
+}
+@keyframes headlineIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Alternate hover effect: skew + lift + animated underline */
+.center-title h1 {
+  position: relative;
+  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), letter-spacing 0.28s ease;
+}
+.center-title:hover h1 {
+  transform: translateY(-6px) skewX(-3deg) scale(1.03);
+  letter-spacing: 0.9px;
+}
+
+/* Font-weight hover effect: base light weight, increase weight on hover + subtle shadow to emphasize */
+.center-title h1 {
+  font-weight: 200; /* light by default */
+  transition: font-weight 160ms steps(1,end), text-shadow 220ms ease, transform 280ms cubic-bezier(.2,.9,.2,1);
+}
+.center-title:hover h1,
+.center-title h1:hover {
+  font-weight: 600; /* visually heavier on hover */
+  /* subtle multi-layered shadow to make the glyphs look denser without changing color */
+  text-shadow: 0 0 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.04);
 }
 @keyframes centerTitleFadeIn {
   0% {
@@ -122,6 +179,8 @@
   margin: 0 32px 32px 0;
   pointer-events: auto;
 }
+.spotify-content { cursor: grab; touch-action: none; }
+.spotify-content.dragging { cursor: grabbing; }
 .spotify-modal.show .spotify-content {
   animation: finderFadeIn 0.35s cubic-bezier(.4,1.6,.4,1) forwards;
 }
@@ -176,6 +235,47 @@
   overflow: hidden;
   position: relative;
 }
+.finder-content { transition: left 0.22s ease, top 0.22s ease, width 0.22s ease, height 0.22s ease, transform 0.18s ease; }
+
+/* maximized / zoomed finder */
+.finder-content.finder-maximized {
+  /* increased inset when maximized (smaller than full viewport) */
+  position: fixed !important;
+  left: 48px !important;
+  top: 48px !important;
+  width: calc(100vw - 96px) !important;
+  height: calc(100vh - 96px) !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  border-radius: 16px !important;
+  transform: translateZ(0);
+}
+.finder-content.finder-maximized .finder-main {
+  /* remove side padding so content can reach edges */
+  max-height: none;
+  height: calc(100% - 56px);
+  overflow: auto;
+  padding: 0 !important;
+}
+
+/* make image go edge-to-edge when maximized */
+.finder-content.finder-maximized .finder-image {
+  margin: 0 !important;
+  width: 100% !important;
+}
+.finder-content.finder-maximized .finder-image img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  display: block;
+}
+
+/* Indent textual content slightly when maximized, but keep images full-bleed */
+.finder-content.finder-maximized .finder-main > :not(.finder-image) {
+  padding: 10px 20px !important;
+}
 .finder-header {
   display: flex;
   align-items: center;
@@ -190,14 +290,11 @@
   border-radius: 50%;
   margin-right: 6px;
 }
+.finder-dot { cursor: default; }
+.finder-dot.red, .finder-dot.yellow { cursor: pointer; }
 .finder-dot.red { background: #ff5f57; }
 .finder-dot.yellow { background: #febc2e; }
 .finder-dot.green { background: #28c840; }
-.finder-title {
-  font-weight: bold;
-  margin-left: 16px;
-  font-size: 16px;
-}
 .finder-close {
   position: absolute;
   right: 18px;
@@ -207,6 +304,18 @@
   font-size: 24px;
   color: #888;
   cursor: pointer;
+}
+.center-title {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  /* put the title above desktop icons/dock so it receives hover events */
+  z-index: 30;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
 }
 .finder-body {
   display: flex;
@@ -239,6 +348,21 @@
   display: block;
   max-height: 480px;
   overflow-y: auto;
+}
+.finder-image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 18px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #ccc;
+}
+
+/* When finder is maximized, make images fill the content area */
+.finder-content.finder-maximized .finder-image img {
+  width: 100%;
+  max-width: none;
+  height: 100%;
 }
 .finder-main-title {
   font-weight: bold;
@@ -284,7 +408,10 @@
 }
 body {
   margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  /* macOS / system UI font stack for a native macOS look */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "San Francisco", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: #fff;
   min-height: 100vh;
   position: relative;
@@ -342,6 +469,63 @@ body {
 .login-input::placeholder { color: rgba(255,255,255,0.7); }
 .login-submit { height:48px; width:56px; min-width:56px; background: rgba(255,255,255,0.14); color:#fff; border:none; padding:0; border-radius:10px; font-size:18px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center }
 .login-submit:hover { background: rgba(255,255,255,0.2) }
+
+/* Password toggle button inside login input */
+.login-input-wrap { position: relative; }
+.login-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 36px;
+  width: 36px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px;
+}
+.login-toggle:hover { background: rgba(255,255,255,0.12); }
+.login-toggle svg { width:18px; height:18px; display:block; }
+.login-toggle .eye-path, .login-toggle .eye-circle { stroke: #fff; stroke-width:1.6; }
+.login-toggle:focus { outline: 2px solid rgba(255,255,255,0.18); }
+
+.login-input { padding-right: 56px; }
+
+/* default icon state: show open (eye) and hide closed (eye-off) */
+.login-toggle .icon-open { display: block; }
+.login-toggle .icon-closed { display: none; }
+
+/* ensure SVG strokes are white even if paths don't inherit */
+.login-toggle svg .eye-path, .login-toggle svg .eye-circle { stroke: #fff; }
+
+/* Hide native browser password reveal / clear icons so only custom icon shows */
+.login-input {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.login-input::-ms-clear,
+.login-input::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.login-input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  pointer-events: none;
+  height: 0;
+}
+.login-input::-webkit-textfield-decoration-container,
+.login-input::-webkit-textfield-decoration-button,
+.login-input::-webkit-search-decoration,
+.login-input::-webkit-search-cancel-button,
+.login-input::-webkit-search-results-button,
+.login-input::-webkit-search-results-decoration {
+  display: none !important;
+}
 
 @media (max-width:600px) {
   .login-avatar { width:72px; height:72px }
@@ -417,18 +601,23 @@ body {
   top: 40%; left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  z-index: 1;
+  z-index: 30;
+  pointer-events: auto;
 }
 .center-title span {
   font-size: 24px;
   color: #222;
 }
 .center-title h1 {
-  font-family: 'Georgia', serif;
-  font-size: 80px;
+  /* use the system UI font for a macOS-like heading */
+  /* use a serif display font (Merriweather loaded in head) */
+  font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+  font-size: 128px;
+  font-weight: 200;
   font-style: italic;
   margin: 0;
   color: #222;
+  letter-spacing: -1px;
 }
 .desktop-icons {
   position: absolute;
