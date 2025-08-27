@@ -21,7 +21,19 @@
       <div class="login-username">HAO NGUYEN PORTFOLIO</div>
   <!-- <div class="login-time" aria-hidden="true"></div> -->
       <div class="login-input-wrap">
-  <input id="login-password" class="login-input" type="password" placeholder="Press anything you want :)" aria-label="Password" style="border-radius:45px;" />
+  <input id="login-password" class="login-input" type="password" placeholder="Press anything" aria-label="Password" style="border-radius:45px;" />
+        <button type="button" class="login-toggle" aria-label="Toggle password visibility" title="Show password" aria-pressed="false">
+          <!-- eye open (visible when password is hidden) -->
+          <svg class="icon-open" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path class="eye-path" d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle class="eye-circle" cx="12" cy="12" r="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle>
+          </svg>
+          <!-- eye closed / eye-off (visible when password is shown) -->
+          <svg class="icon-closed" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path class="eye-path" d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7 .97-1.6 2.56-3.78 4.7-5.56M6.34 6.34A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7-.97 1.6-2.56 3.78-4.7 5.56" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path class="eye-path" d="M1 1l22 22" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -55,9 +67,10 @@
       <li>Travel somewhere new every year</li>
     </ul>
   </div>
-  <div class="center-title" style="font-size:2.1rem;">
-  <span style="font-size:2.2rem;">welcome to my</span>
-  <h1 style="font-family: 'Merriweather', Georgia, serif; font-size:7.5rem; line-height:1.05; font-weight:200;">portfolio.</h1>
+  <!-- Centered title added per request -->
+    <div class="center-title" aria-hidden="true">
+      <div class="center-subtitle">welcome to my</div>
+      <h1>portfolio.</h1>
   </div>
   <div class="desktop-icons">
     <div class="icon file">
@@ -159,6 +172,62 @@
       });
     })();
   </script>
+
+  <script>
+    // Clear the login password when the page is refreshed (F5/Ctrl+R)
+    (function() {
+      const pw = document.getElementById('login-password');
+      if (!pw) return;
+
+      // Try to prevent browser from restoring value
+      try { pw.autocomplete = 'off'; } catch (e) {}
+      pw.value = '';
+
+      // Clear before reload when user presses F5 or Ctrl+R
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
+          pw.value = '';
+        }
+      });
+
+      // Clear on unload to avoid form being restored
+      window.addEventListener('beforeunload', function() {
+        pw.value = '';
+      });
+
+      // Clear when page is restored from bfcache (back-forward cache)
+      window.addEventListener('pageshow', function(e) {
+        if (e.persisted) pw.value = '';
+      });
+    })();
+  </script>
+    <script>
+      // Toggle password visibility for login input
+      (function() {
+        const pw = document.getElementById('login-password');
+        const btn = document.querySelector('.login-toggle');
+        if (!pw || !btn) return;
+
+        btn.addEventListener('click', function() {
+          const isPw = pw.type === 'password';
+          pw.type = isPw ? 'text' : 'password';
+          btn.title = isPw ? 'Hide password' : 'Show password';
+          btn.setAttribute('aria-pressed', String(isPw));
+          // swap icons
+          const openIcon = btn.querySelector('.icon-open');
+          const closedIcon = btn.querySelector('.icon-closed');
+          if (openIcon && closedIcon) {
+            if (isPw) {
+              openIcon.style.display = 'none';
+              closedIcon.style.display = 'block';
+            } else {
+              openIcon.style.display = 'block';
+              closedIcon.style.display = 'none';
+            }
+          }
+        });
+      })();
+    </script>
 
   <script>
     // Animation cho center-title khi mở web
@@ -503,6 +572,50 @@ With a background in both design and technology, I bring a unique perspective to
       });
     });
 
+    // Finder window controls: red = close, yellow = maximize/restore
+    (function() {
+      function initFinderControls(modal) {
+        const content = modal.querySelector('.finder-content');
+        const header = modal.querySelector('.finder-header');
+        if (!content || !header) return;
+        const red = header.querySelector('.finder-dot.red');
+        const yellow = header.querySelector('.finder-dot.yellow');
+        if (red) {
+          red.addEventListener('click', function(e) {
+            // close modal
+            modal.classList.add('hide');
+            setTimeout(() => {
+              modal.classList.remove('hide');
+              modal.style.display = 'none';
+            }, 250);
+          });
+        }
+        if (yellow) {
+          yellow.addEventListener('click', function(e) {
+            const isMax = content.classList.toggle('finder-maximized');
+            // update title or aria if needed
+            // when maximized, ensure body scroll isn't interfering
+            if (isMax) {
+              modal.style.alignItems = 'flex-start';
+            } else {
+              modal.style.alignItems = 'center';
+            }
+          });
+        }
+
+        // double-click header toggles maximize
+        header.addEventListener('dblclick', function() {
+          content.classList.toggle('finder-maximized');
+        });
+      }
+
+      ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04'].forEach(function(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+        initFinderControls(modal);
+      });
+    })();
+
     // Mở modal Spotify khi click vào icon dock Spotify
     document.querySelector('.dock img[alt="Spotify"]').onclick = function() {
       const modal = document.getElementById('spotify-modal');
@@ -535,6 +648,60 @@ With a background in both design and technology, I bring a unique perspective to
         }
       }
     });
+
+    // Make Spotify panel draggable
+    (function() {
+      const modal = document.getElementById('spotify-modal');
+      if (!modal) return;
+      const panel = modal.querySelector('.spotify-content');
+      if (!panel) return;
+      let dragging = false, offsetX = 0, offsetY = 0;
+
+      function startDrag(x, y) {
+        dragging = true;
+        panel.classList.add('dragging');
+        const rect = panel.getBoundingClientRect();
+        offsetX = x - rect.left;
+        offsetY = y - rect.top;
+        panel.style.position = 'fixed';
+        panel.style.zIndex = 9999;
+      }
+
+      function doDrag(x, y) {
+        if (!dragging) return;
+        let left = x - offsetX;
+        let top = y - offsetY;
+        left = Math.max(8, Math.min(window.innerWidth - panel.offsetWidth - 8, left));
+        top = Math.max(8, Math.min(window.innerHeight - panel.offsetHeight - 8, top));
+        panel.style.left = left + 'px';
+        panel.style.top = top + 'px';
+      }
+
+      function endDrag() {
+        dragging = false;
+        panel.classList.remove('dragging');
+      }
+
+      // Mouse
+      panel.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        startDrag(e.clientX, e.clientY);
+      });
+      document.addEventListener('mousemove', function(e) { doDrag(e.clientX, e.clientY); });
+      document.addEventListener('mouseup', endDrag);
+
+      // Touch
+      panel.addEventListener('touchstart', function(e) {
+        const t = e.touches[0];
+        startDrag(t.clientX, t.clientY);
+      }, { passive: false });
+      document.addEventListener('touchmove', function(e) {
+        if (!dragging) return;
+        const t = e.touches[0];
+        doDrag(t.clientX, t.clientY);
+      }, { passive: false });
+      document.addEventListener('touchend', endDrag);
+    })();
 
     function updateNavDate() {
       const navDate = document.querySelector('.nav-date');
