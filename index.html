@@ -18,7 +18,7 @@
     </div>
     <div class="login-center">
       <img src="img/35253f64facc999e781f9d679feb1841.jpg" alt="User Avatar" class="login-avatar" />
-      <div class="login-username">HAO NGUYEN PORTFOLIO</div>
+      <!-- <div class="login-username">HAO NGUYEN PORTFOLIO</div> -->
   <!-- <div class="login-time" aria-hidden="true"></div> -->
       <div class="login-input-wrap">
   <input id="login-password" class="login-input" type="password" placeholder="Press anything" aria-label="Password" style="border-radius:45px;" />
@@ -69,7 +69,6 @@
   </div>
   <!-- Centered title added per request -->
     <div class="center-title" aria-hidden="true">
-      <div class="center-subtitle">welcome to my</div>
       <h1>portfolio.</h1>
   </div>
   <div class="desktop-icons">
@@ -174,6 +173,44 @@
   </script>
 
   <script>
+    // Trigger unlock animation when user types a password or presses Enter
+    (function() {
+      const overlay = document.getElementById('login-overlay');
+      const pw = document.getElementById('login-password');
+      if (!overlay || !pw) return;
+
+      let unlocked = false;
+
+      function doUnlock() {
+        if (unlocked) return; // only once
+        unlocked = true;
+        // add class to play animations
+        overlay.classList.add('unlocking');
+        // after the unlock animation completes, fade out overlay completely
+        setTimeout(() => {
+          overlay.classList.add('hide');
+          // remove overlay from accessibility tree after fade-out completes
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            overlay.setAttribute('aria-hidden', 'true');
+          }, 700);
+        }, 760);
+      }
+
+      // If user presses Enter in the password field, unlock
+      pw.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doUnlock();
+        }
+      });
+
+  // NOTE: auto-unlock on first typed character removed — unlock now only
+  // happens when user presses Enter to avoid accidental entry.
+    })();
+  </script>
+
+  <script>
     // Clear the login password when the page is refreshed (F5/Ctrl+R)
     (function() {
       const pw = document.getElementById('login-password');
@@ -181,23 +218,32 @@
 
       // Try to prevent browser from restoring value
       try { pw.autocomplete = 'off'; } catch (e) {}
-      pw.value = '';
+      // clear now
+      try { pw.value = ''; } catch (e) {}
 
-      // Clear before reload when user presses F5 or Ctrl+R
+      // helper: clear immediately and shortly after to beat browser restore
+      function clearPwSoon() {
+        try { pw.value = ''; } catch (e) {}
+        setTimeout(function() { try { pw.value = ''; } catch (e) {} }, 10);
+      }
+
+      // Clear before reload when user presses F5, or Ctrl+R (cover key and keyCode)
       window.addEventListener('keydown', function(e) {
-        if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
-          pw.value = '';
+        const key = e.key;
+        const code = e.keyCode || e.which;
+        if (key === 'F5' || code === 116 || (e.ctrlKey && (key === 'r' || key === 'R' || code === 82))) {
+          clearPwSoon();
         }
-      });
+      }, { passive: true });
 
-      // Clear on unload to avoid form being restored
-      window.addEventListener('beforeunload', function() {
-        pw.value = '';
-      });
+      // Clear on lifecycle events that may save/restore form state
+      window.addEventListener('beforeunload', clearPwSoon);
+      window.addEventListener('pagehide', function(e) { if (!e.persisted) clearPwSoon(); });
+      window.addEventListener('pageshow', function(e) { if (e.persisted) clearPwSoon(); });
 
-      // Clear when page is restored from bfcache (back-forward cache)
-      window.addEventListener('pageshow', function(e) {
-        if (e.persisted) pw.value = '';
+      // Some browsers save form state on visibility change
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') clearPwSoon();
       });
     })();
   </script>
@@ -237,6 +283,38 @@
         setTimeout(() => centerTitle.classList.add('animated'), 100);
       }
     });
+  </script>
+
+  <script>
+    // Split center title and subtitle into per-character spans so hover only
+    // affects the hovered portion. Reuseable splitter accepts a class name so
+    // subtitle and headline can have slightly different styling.
+    (function() {
+      function splitChars(el, cls) {
+        if (!el) return;
+        const text = el.textContent || '';
+        el.innerHTML = '';
+        for (let i = 0; i < text.length; i++) {
+          const ch = text[i];
+          const span = document.createElement('span');
+          span.className = cls || 'char';
+            // preserve spaces as non-breaking to avoid collapsing
+            const displayChar = ch === ' ' ? '\u00A0' : ch;
+            span.textContent = displayChar;
+            // store the character in a data attribute so CSS can render a
+            // heavier overlay via ::after for a smooth opacity transition
+            span.setAttribute('data-ch', displayChar);
+          el.appendChild(span);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const h = document.querySelector('.center-title h1');
+        const sub = document.querySelector('.center-subtitle');
+        splitChars(h, 'char');
+        splitChars(sub, 'char-sub');
+      });
+    })();
   </script>
 
     <!-- Modal About Me -->
