@@ -25,9 +25,10 @@
   transition: opacity 0.3s, transform 0.28s cubic-bezier(.2,.9,.2,1);
 }
 
-/* Hover effect: lift, slight scale (no color or text-shadow changes) */
+/* Hover effect: lift, slight scale (no color or text-shadow changes) - smoother easing */
 .center-title:hover h1 {
   transform: translateY(-6px) scale(1.02);
+  transition: transform 320ms cubic-bezier(.16,.84,.24,1);
 }
 .center-title.animated {
   animation: centerTitleFadeIn 1.1s cubic-bezier(.6,-0.01,.4,1.01) forwards;
@@ -61,14 +62,14 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Alternate hover effect: skew + lift + animated underline */
+/* Alternate hover effect: lift + subtle scale (remove skew for a smoother feel) */
 .center-title h1 {
   position: relative;
-  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), letter-spacing 0.28s ease;
+  transition: transform 320ms cubic-bezier(.16,.84,.24,1), letter-spacing 240ms ease;
 }
 .center-title:hover h1 {
-  transform: translateY(-6px) skewX(-3deg) scale(1.03);
-  letter-spacing: 0.9px;
+  transform: translateY(-6px) scale(1.02);
+  letter-spacing: 0.4px;
 }
 
 /* Font-weight hover effect: base light weight, increase weight on hover + subtle shadow to emphasize */
@@ -436,6 +437,35 @@ body {
   z-index: 200;
   color: #fff;
 }
+
+/* unlock animation: subtle pulse on the center then fade the whole overlay */
+/* slowed unlock animations for a softer effect */
+.login-overlay.unlocking .login-center {
+  animation: loginCenterPulse 760ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+.login-overlay.unlocking .login-avatar {
+  animation: avatarGlow 760ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+.login-overlay.hide {
+  animation: overlayFadeOut 620ms ease forwards;
+  pointer-events: none;
+}
+
+@keyframes loginCenterPulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: none; }
+  45% { transform: translate(-50%, -50%) scale(1.08); filter: drop-shadow(0 20px 46px rgba(0,0,0,0.45)); }
+  100% { transform: translate(-50%, -110%) scale(0.92); opacity: 0; filter: blur(2px); }
+}
+
+@keyframes avatarGlow {
+  0% { box-shadow: 0 8px 30px rgba(0,0,0,0.5); transform: scale(1); }
+  45% { box-shadow: 0 26px 56px rgba(0,0,0,0.56); transform: scale(1.08); }
+  100% { box-shadow: 0 40px 80px rgba(0,0,0,0.45); transform: scale(0.9); opacity: 0; }
+}
+
+@keyframes overlayFadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
 .login-topbar {
   width: 100%;
   height: 44px;
@@ -604,21 +634,94 @@ body {
   z-index: 30;
   pointer-events: auto;
 }
-.center-title span {
+.center-title .center-subtitle {
   font-size: 24px;
   color: #222;
 }
+
+/* Per-character subtitle styling (smaller, subtler than headline) */
+.center-title .char-sub {
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  font-weight: 300;
+  /* don't animate font-weight (make hover apply weight:600 immediately) */
+  /* include color in transitions so hover color change is smooth */
+  transition: color 180ms ease, text-shadow 220ms ease;
+  will-change: opacity, text-shadow;
+  vertical-align: baseline;
+  backface-visibility: hidden;
+}
+.center-title .char-sub:hover {
+  font-weight: 600;
+  text-shadow: 0 0 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.04);
+  /* slightly lighter black on hover */
+  color: rgba(39, 39, 39, 0.85);
+}
+/* Use a pseudo-element overlay to render a heavier glyph and fade it in on hover.
+   This avoids animating font-weight (which can be janky) and only transitions opacity. */
+.center-title .char-sub::after {
+  content: attr(data-ch);
+  position: absolute;
+  left: 0; top: 0;
+  color: currentColor;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+.center-title .char-sub { position: relative; }
+.center-title .char-sub:hover::after { opacity: 1; }
 .center-title h1 {
   /* use the system UI font for a macOS-like heading */
   /* use a serif display font (Merriweather loaded in head) */
   font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
   font-size: 128px;
-  font-weight: 200;
+  font-weight: 100;
   font-style: italic;
   margin: 0;
   color: #222;
   letter-spacing: -1px;
 }
+
+/* Per-character hover: each character becomes its own inline block
+   so hovering only increases weight for that region. Use a quick
+   step transition for font-weight and a subtle text-shadow to simulate
+   optical weight change without shifting layout. */
+.center-title h1 .char {
+  display: inline-block;
+  /* inherit the large h1 font size so chars don't become small via other rules */
+  font-size: inherit;
+  line-height: 1;
+  font-weight: 100;
+  /* smoother timings and easing for weight and shadow only (no translate/scale) */
+  /* apply font-weight instantly on :hover; animate only shadow/opacity for smoothness */
+  /* include color so the glyph can shift to a slightly lighter black smoothly */
+  transition: color 180ms ease, text-shadow 260ms ease;
+  will-change: opacity, text-shadow;
+  vertical-align: baseline;
+  backface-visibility: hidden;
+  transform-origin: center bottom;
+}
+.center-title h1 .char:hover {
+  font-weight: 600;
+  text-shadow: 0 0 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.04);
+  /* slightly lighter black on hover */
+  color: rgba(0,0,0,0.85);
+}
+/* overlay heavier glyph for smooth hover using opacity transition */
+.center-title h1 .char::after {
+  content: attr(data-ch);
+  position: absolute;
+  left: 0; top: 0;
+  color: currentColor;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+.center-title h1 .char { position: relative; }
+.center-title h1 .char:hover::after { opacity: 1; }
 .desktop-icons {
   position: absolute;
   width: 100vw; height: 100vh;
