@@ -53,7 +53,11 @@
   display: inline-block;
   opacity: 0;
   transform: translateY(12px) scale(0.98);
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(.2,.9,.2,1);
+  /* smoother, snappier transform easing and slightly longer opacity for pleasant fade */
+  transition: opacity 0.45s ease, transform 300ms cubic-bezier(.22,.9,.3,1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 .center-title.animated h1 {
   animation: headlineIn 0.9s cubic-bezier(.2,.9,.2,1) 0.35s forwards;
@@ -72,16 +76,14 @@
   letter-spacing: 0.4px;
 }
 
-/* Font-weight hover effect: base light weight, increase weight on hover + subtle shadow to emphasize */
 .center-title h1 {
-  font-weight: 200; /* light by default */
-  transition: font-weight 160ms steps(1,end), text-shadow 220ms ease, transform 280ms cubic-bezier(.2,.9,.2,1);
+  /* ensure the default weight is the lightest available */
+  font-weight: 100; /* lowest default weight */
+  transition: font-weight 160ms steps(1,end), transform 280ms cubic-bezier(.2,.9,.2,1);
 }
 .center-title:hover h1,
 .center-title h1:hover {
   font-weight: 600; /* visually heavier on hover */
-  /* subtle multi-layered shadow to make the glyphs look denser without changing color */
-  text-shadow: 0 0 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.04);
 }
 @keyframes centerTitleFadeIn {
   0% {
@@ -136,25 +138,28 @@
   position: absolute;
 }
 .desktop-icons .icon.file {
-  left: 45%; top: 20%; /* Resume.pdf */
+  left: 72%; top: 26%; /* Resume.pdf (right cluster) */
 }
 .desktop-icons .icon.folder:nth-child(2) {
-  left: 8%; top: 40%; /* About Me */
+  left: 12%; top: 62%; /* About Me (left cluster) */
 }
 .desktop-icons .icon.folder:nth-child(3) {
-  left: 45%; top: 8%; /* ZETA APPLICATION */
+  left: 84%; top: 12%; /* ZETA APP (top-right) */
 }
 .desktop-icons .icon.folder#project01-icon {
-  left: 55%; top: 65%; /* BLUES QUIZ - CHELSEA FC X FPT */
+  left: 60%; top: 70%; /* BLUES QUIZ - lower-right cluster */
 }
 .desktop-icons .icon.folder:nth-child(5) {
-  left: 35%; top: 60%; /* Project 03 (Leafpress) */
+  left: 88%; top: 48%; /* FUKUOKA (far right) */
 }
 .desktop-icons .icon.folder:nth-child(6) {
-  left: 65%; top: 8%; /* Project 04 (Amazon) */
+  left: 66%; top: 28%; /* JOB AND RECRUITMENT (right cluster) */
+}
+.desktop-icons .icon.folder:nth-child(7) {
+  left: 20%; top: 62%; /* Dont Click (next to About Me) */
 }
 .desktop-icons .icon.trash {
-  right: 2%; bottom: 8%; /* Don't Look */
+  right: 2%; bottom: 8%; /* fallback trash at bottom-right if used */
   left: auto;
   top: auto;
 }
@@ -294,7 +299,6 @@
 .finder-dot { cursor: default; }
 .finder-dot.red, .finder-dot.yellow { cursor: pointer; }
 .finder-dot.red { background: #ff5f57; }
-.finder-dot.yellow { background: #febc2e; }
 .finder-dot.green { background: #28c840; }
 .finder-close {
   position: absolute;
@@ -429,7 +433,12 @@ body {
 .login-overlay {
   position: fixed;
   inset: 0;
-  background: url('img/macos-big-sur-apple-layers-fluidic-colorful-wwdc-stock-2880x1800-1455.jpg') center/cover no-repeat, rgba(10,10,10,0.35);
+  /* stronger translucent layer and added backdrop blur to make the
+     background appear more faded/muted */
+  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('img/không\ logo\ \(1\).jpg') center/cover no-repeat;
+  /* blur the backdrop (supported browsers) for a frosted glass effect */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -639,6 +648,18 @@ body {
   color: #222;
 }
 
+/* subtitle positioning and subtle style for the centered heading */
+.center-title .center-subtitle {
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "San Francisco", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.42s ease, transform 0.42s cubic-bezier(.22,.9,.3,1);
+}
+.center-title.animated .center-subtitle { opacity: 1; transform: translateY(0); }
+
 /* Per-character subtitle styling (smaller, subtler than headline) */
 .center-title .char-sub {
   display: inline-block;
@@ -654,7 +675,6 @@ body {
 }
 .center-title .char-sub:hover {
   font-weight: 600;
-  text-shadow: 0 0 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.04);
   /* slightly lighter black on hover */
   color: rgba(39, 39, 39, 0.85);
 }
@@ -676,12 +696,33 @@ body {
   /* use the system UI font for a macOS-like heading */
   /* use a serif display font (Merriweather loaded in head) */
   font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
-  font-size: 128px;
+  font-size: 110px;
   font-weight: 100;
   font-style: italic;
   margin: 0;
   color: #222;
   letter-spacing: -1px;
+}
+
+/* Title wrapper for flag positioning */
+.title-wrap {
+  display: inline-block;
+  position: relative;
+}
+.center-flag {
+  position: absolute;
+  right: -1%;
+  top: -12%; /* moved down slightly */
+  width: 72px; /* increased size */
+  height: 72px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+@media (max-width: 800px) {
+  .center-flag { width: 38px; right: -4%; top: -8%; }
+  .center-title h1 { font-size: 72px; }
 }
 
 /* Per-character hover: each character becomes its own inline block
@@ -690,38 +731,35 @@ body {
    optical weight change without shifting layout. */
 .center-title h1 .char {
   display: inline-block;
-  /* inherit the large h1 font size so chars don't become small via other rules */
   font-size: inherit;
   line-height: 1;
-  font-weight: 100;
-  /* smoother timings and easing for weight and shadow only (no translate/scale) */
-  /* apply font-weight instantly on :hover; animate only shadow/opacity for smoothness */
-  /* include color so the glyph can shift to a slightly lighter black smoothly */
-  transition: color 180ms ease, text-shadow 260ms ease;
-  will-change: opacity, text-shadow;
+  /* keep a stable weight to avoid layout shifts; use transform for emphasis */
+  font-weight: 300;
+  transition: transform 200ms cubic-bezier(.22,.9,.3,1), text-shadow 220ms ease, color 160ms ease;
+  will-change: transform, text-shadow, color;
   vertical-align: baseline;
   backface-visibility: hidden;
   transform-origin: center bottom;
 }
 .center-title h1 .char:hover {
-  font-weight: 600;
-  text-shadow: 0 0 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.04);
-  /* slightly lighter black on hover */
-  color: rgba(0,0,0,0.85);
+  transform: translate3d(0,-3px,0) scale(1.01);
+  color: rgba(0,0,0,0.88);
 }
 /* overlay heavier glyph for smooth hover using opacity transition */
 .center-title h1 .char::after {
+  /* remove heavier glyph overlay to avoid duplicate layout calculations; keep ::after for subtle layering if needed */
   content: attr(data-ch);
   position: absolute;
   left: 0; top: 0;
   color: currentColor;
-  font-weight: 600;
+  font-weight: 500;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 180ms ease;
+  transition: opacity 220ms cubic-bezier(.22,.9,.3,1), transform 220ms cubic-bezier(.22,.9,.3,1);
+  transform: translate3d(0,1px,0);
 }
 .center-title h1 .char { position: relative; }
-.center-title h1 .char:hover::after { opacity: 1; }
+.center-title h1 .char:hover::after { opacity: 1; transform: translateY(0); }
 .desktop-icons {
   position: absolute;
   width: 100vw; height: 100vh;
