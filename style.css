@@ -301,7 +301,8 @@
   width: 1200px;
   max-width: 99vw;
   min-height: 500px;
-  overflow: hidden;
+  /* allow header/tooltips to escape the rounded container instead of being clipped */
+  overflow: visible;
   position: relative;
 }
 .finder-content { transition: left 0.22s ease, top 0.22s ease, width 0.22s ease, height 0.22s ease, transform 0.18s ease; }
@@ -352,6 +353,8 @@
   background: #f7f7f7;
   border-bottom: 1px solid #eee;
   position: relative;
+  overflow: visible; /* ensure header pseudo-elements are visible */
+  z-index: 110; /* sit above other page layers */
 }
 .finder-dot {
   display: inline-block;
@@ -364,6 +367,54 @@
 .finder-dot.red { background: #ff5f57; }
 .finder-dot.green { background: #28c840; }
 .finder-dot.yellow { background: #ffbd2e; }
+/* Tooltip for window control dots (close/minimize/maximize) */
+.finder-dot {
+  position: relative;
+}
+.finder-dot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px) scale(0.98);
+  background: #ffffff;
+  color: #111;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 200ms cubic-bezier(.2,.9,.2,1);
+  z-index: 9999;
+}
+.finder-dot::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%) translateY(6px) rotate(45deg);
+  background: #ffffff;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 200ms cubic-bezier(.2,.9,.2,1);
+  z-index: 9998;
+}
+/* specific labels */
+.finder-dot.red::after { content: "Close"; }
+.finder-dot.yellow::after { content: "Minimize"; }
+.finder-dot.green::after { content: "Maximize"; }
+.finder-dot:focus::after,
+.finder-dot:focus::before,
+.finder-dot:hover::after,
+.finder-dot:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
 .finder-close {
   position: absolute;
   right: 18px;
@@ -499,7 +550,7 @@ body {
   inset: 0;
   /* stronger translucent layer and added backdrop blur to make the
      background appear more faded/muted */
-  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('') center/cover no-repeat;
+  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('img/không\ logo\ \(1\).jpg') center/cover no-repeat;
   /* blur the backdrop (supported browsers) for a frosted glass effect */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -991,4 +1042,73 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0) scale(1);
 }
+/* Generic tooltip for dock images */
+.dock img[alt], .dock > img {
+  position: relative;
+}
+.dock > img::after,
+.dock > img::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 14px);
+  transform: translateX(-50%) translateY(6px) scale(0.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 200ms cubic-bezier(.2,.9,.2,1);
+  z-index: 9999;
+}
+.dock > img::after {
+  background: #ffffff;
+  color: #111;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.dock > img::before {
+  width: 8px; height: 8px;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px) rotate(45deg);
+  background: #ffffff;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+.dock > img[alt]::after { content: attr(alt); }
+.dock > img[alt]:hover::after,
+.dock > img[alt]:focus::after,
+.dock > img[alt]:hover::before,
+.dock > img[alt]:focus::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
 
+/* Tooltip for desktop icons (uses the <span> label text) */
+.desktop-icons .icon {
+  --tooltip-bg: #ffffff;
+  --tooltip-color: #111;
+}
+.desktop-icons .icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%) translateY(-10px) scale(0.98);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-color);
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 200ms cubic-bezier(.2,.9,.2,1);
+  z-index: 9999;
+}
+.desktop-icons .icon::before { z-index: 0; }
+.desktop-icons .icon:hover::after,
+.desktop-icons .icon:focus::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px) scale(1);
+}
