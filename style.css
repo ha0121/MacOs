@@ -499,7 +499,7 @@ body {
   inset: 0;
   /* stronger translucent layer and added backdrop blur to make the
      background appear more faded/muted */
-  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('img/không\ logo\ \(1\).jpg') center/cover no-repeat;
+  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('') center/cover no-repeat;
   /* blur the backdrop (supported browsers) for a frosted glass effect */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -991,3 +991,4 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0) scale(1);
 }
+
