@@ -54,9 +54,7 @@
         <img src="img/control-centre.svg" alt="Screen" style="height:20px;vertical-align:middle;"> -->
       </span>
   <span class="nav-date">Tuesday, Aug 12 &nbsp; <span class="time">4:25 PM</span></span>
-    <span class="nav-stats" aria-live="polite" role="status" title="Site views and live viewers">
-  <span class="views">0 views</span>
-  <span class="sep" aria-hidden="true"></span>
+    <span class="nav-stats" aria-live="polite" role="status" title="Live viewers">
       <span class="live" title="Currently viewing">
         <span class="icon-circle" aria-hidden="true"></span>
         <span class="online-number">1</span>
@@ -871,20 +869,13 @@ With a background in both design and technology, I bring a unique perspective to
     setInterval(updateNavDate, 1000);
   </script>
   <script>
-    // Site views + live viewers: prefer WebSocket server for real-time updates,
-    // fall back to the existing BroadcastChannel/localStorage approach when WS
-    // isn't available or fails.
+    // Presence-only: live viewers via WebSocket when available, otherwise
+    // BroadcastChannel/localStorage heartbeat fallback. Total view counts
+    // have been removed per request.
     (function() {
-      const VIEWS_KEY = 'site_total_views_v1';
-      const viewsEl = document.querySelector('.nav-stats .views');
+      if (window.__sitePresenceInit) return;
+      window.__sitePresenceInit = true;
       const liveWrap = document.querySelector('.nav-stats .live');
-      const sessionStampKey = 'site_view_session_stamp';
-
-      function renderTotal(n) {
-        if (!viewsEl) return;
-        if (n === 1) viewsEl.textContent = `${n} view`;
-        else viewsEl.textContent = `${n} views`;
-      }
 
       function updateLive(n) {
         if (!liveWrap) return;
@@ -896,72 +887,32 @@ With a background in both design and technology, I bring a unique perspective to
         if (label) label.textContent = 'ONLINE';
       }
 
-      // Start by reading any locally persisted total so UI isn't blank while
-      // WS connects.
-      (function initLocalTotal() {
-        try { renderTotal(parseInt(localStorage.getItem(VIEWS_KEY) || '0', 10) || 0); }
-        catch (e) { renderTotal(0); }
-      })();
-
-      // Helper: mark a session so we only increment once per browser tab session
-      function markSessionVisited() {
-        if (!sessionStorage.getItem(sessionStampKey)) {
-          sessionStorage.setItem(sessionStampKey, Date.now().toString());
-          return true;
-        }
-        return false;
-      }
-
       let usedServer = false;
 
-      // Try WebSocket first (only when served via http/https). The server we
-      // added responds to messages and broadcasts totals/presence.
       try {
         if (location.protocol.indexOf('http') === 0 && typeof WebSocket !== 'undefined') {
           const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
           const wsUrl = wsProto + '//' + location.host;
           const ws = new WebSocket(wsUrl);
-          ws.addEventListener('open', function() {
-            usedServer = true;
-            // If this session hasn't been counted yet, tell server to increment
-            if (markSessionVisited()) ws.send(JSON.stringify({ type: 'visit' }));
-          });
+          ws.addEventListener('open', function() { usedServer = true; });
 
           ws.addEventListener('message', function(ev) {
             try {
               const msg = JSON.parse(ev.data || '{}');
-              if (msg.type === 'hello' || msg.type === 'totals') {
-                renderTotal(msg.totalViews || 0);
-                // persist locally so fallback reads a correct value
-                try { localStorage.setItem(VIEWS_KEY, String(msg.totalViews || 0)); } catch (e) {}
-              }
-              if (msg.type === 'presence') {
-                updateLive(msg.online || 1);
-              }
+              if (msg.type === 'presence') updateLive(msg.online || 1);
             } catch (e) {}
           });
 
-          ws.addEventListener('close', function() {
-            // fall back to client-only presence if server goes away
-            if (!usedServer) setupClientPresence();
-          });
-          ws.addEventListener('error', function() {
-            if (!usedServer) setupClientPresence();
-          });
-
-          // keep storage listener to update UI if another tab updates persisted total
-          window.addEventListener('storage', function(e) {
-            if (e.key === VIEWS_KEY) renderTotal(parseInt(e.newValue||'0', 10) || 0);
-          }, false);
+          ws.addEventListener('close', function() { if (!usedServer) setupClientPresence(); });
+          ws.addEventListener('error', function() { if (!usedServer) setupClientPresence(); });
 
           return; // using server path — don't initialize fallback
         }
-      } catch (err) {
-        // ignore and fall back
-      }
+      } catch (err) { /* fall back */ }
 
-      // Fallback: BroadcastChannel/localStorage presence (previous behavior)
       function setupClientPresence() {
+        if (window.__siteClientPresenceInit) return;
+        window.__siteClientPresenceInit = true;
         const channelName = 'site-presence-v1';
         const presence = {};
         let bc = null;
@@ -1006,6 +957,7 @@ With a background in both design and technology, I bring a unique perspective to
           bc = new BroadcastChannel(channelName);
           bc.addEventListener('message', function(ev) {
             const msg = ev.data || {};
+            if (msg.id === myId) return;
             if (msg.type === 'ping') { presence[msg.id] = msg.t || Date.now(); computeLiveFromPresence(); }
             if (msg.type === 'leave') { delete presence[msg.id]; computeLiveFromPresence(); }
           });
@@ -1021,32 +973,12 @@ With a background in both design and technology, I bring a unique perspective to
                 if (msg.type === 'leave') { delete presence[msg.id]; computeLiveFromPresence(); }
               } catch (err) {}
             }
-            if (e.key === VIEWS_KEY) {
-              const n = parseInt(e.newValue||'0',10) || 0; renderTotal(n);
-            }
           }, false);
           startHeartbeat();
           window.addEventListener('beforeunload', stopHeartbeat);
         }
-
-        // also update total views UI if another tab increments localStorage
-        window.addEventListener('storage', function(e) {
-          if (e.key === VIEWS_KEY) {
-            const v = parseInt(e.newValue||'0',10) || 0; renderTotal(v);
-          }
-        }, false);
-
-        // If not counted this session, increment local total and persist so other tabs see it
-        if (markSessionVisited()) {
-          try {
-            const cur = parseInt(localStorage.getItem(VIEWS_KEY) || '0', 10) || 0;
-            localStorage.setItem(VIEWS_KEY, String(cur + 1));
-            renderTotal(cur + 1);
-          } catch (e) {}
-        }
       }
 
-      // If server wasn't used above, initialize fallback presence
       setupClientPresence();
     })();
   </script>
