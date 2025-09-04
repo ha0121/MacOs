@@ -550,7 +550,7 @@ body {
   inset: 0;
   /* stronger translucent layer and added backdrop blur to make the
      background appear more faded/muted */
-  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('') center/cover no-repeat;
+  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('img/không\ logo\ \(1\).jpg') center/cover no-repeat;
   /* blur the backdrop (supported browsers) for a frosted glass effect */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -728,6 +728,25 @@ body {
   font-size: 14px;
   font-weight: 400;
 }
+
+/* Site stats next to nav-date: total views and live viewers */
+.nav-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  font-size: 13px;
+  color: #444;
+}
+.nav-stats .views { color: #333; font-weight: 500; }
+.nav-stats .sep { width:1px; height:16px; background: rgba(0,0,0,0.08); display:inline-block; margin: 0 4px; border-radius:1px; align-self:center; }
+.nav-stats .live { display: inline-flex; align-items: center; gap:6px; color:#0b6; font-weight:700; text-transform:uppercase; font-size:12px; }
+.nav-stats .live .dot { width:8px; height:8px; background:#0b6; border-radius:50%; display:inline-block; box-shadow:0 1px 4px rgba(0,0,0,0.12); }
+.nav-stats .live .count { font-weight:700; color:#0b6; }
+.nav-stats .views .face { display:none; }
+.nav-stats .live .icon-circle { width:10px; height:10px; background: #0b6; border-radius:50%; box-shadow:0 1px 4px rgba(0,0,0,0.12); display:inline-block; }
+.nav-stats .live .online-number { font-weight:700; color:#0b6; margin: 0 4px 0 2px; }
+.nav-stats .live .label { font-weight:700; color:#0b6; margin-left:2px; font-size:12px; letter-spacing:0.6px; }
 
 /* make the time slightly bolder and give it a subtle rainbow animated gradient */
 .nav-date .time {
@@ -1112,4 +1131,3 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(-4px) scale(1);
 }
-
