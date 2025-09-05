@@ -54,7 +54,9 @@
         <img src="img/control-centre.svg" alt="Screen" style="height:20px;vertical-align:middle;"> -->
       </span>
   <span class="nav-date">Tuesday, Aug 12 &nbsp; <span class="time">4:25 PM</span></span>
-    <span class="nav-stats" aria-live="polite" role="status" title="Live viewers">
+    <span class="nav-stats" aria-live="polite" role="status" title="Site stats">
+      <span class="views">0 views</span>
+      <span class="sep" aria-hidden="true"></span>
       <span class="live" title="Currently viewing">
         <span class="icon-circle" aria-hidden="true"></span>
         <span class="online-number">1</span>
@@ -876,7 +878,16 @@ With a background in both design and technology, I bring a unique perspective to
     (function() {
       if (window.__sitePresenceInit) return;
       window.__sitePresenceInit = true;
-      const liveWrap = document.querySelector('.nav-stats .live');
+  const liveWrap = document.querySelector('.nav-stats .live');
+  const viewsEl = document.querySelector('.nav-stats .views');
+  const sessionStampKey = 'site_view_session_stamp';
+  const VIEWS_KEY = 'site_total_views_v1';
+
+      function renderTotal(n) {
+        if (!viewsEl) return;
+        if (n === 1) viewsEl.textContent = `${n} view`;
+        else viewsEl.textContent = `${n} views`;
+      }
 
       function updateLive(n) {
         if (!liveWrap) return;
@@ -888,7 +899,21 @@ With a background in both design and technology, I bring a unique perspective to
         if (label) label.textContent = 'ONLINE';
       }
 
+      // render any locally persisted total while WS connects
+      (function initLocalTotal() {
+        try { renderTotal(parseInt(localStorage.getItem(VIEWS_KEY) || '0', 10) || 0); }
+        catch (e) { renderTotal(0); }
+      })();
+
       let usedServer = false;
+
+      function markSessionVisited() {
+        if (!sessionStorage.getItem(sessionStampKey)) {
+          sessionStorage.setItem(sessionStampKey, Date.now().toString());
+          return true;
+        }
+        return false;
+      }
 
       try {
         if (location.protocol.indexOf('http') === 0 && typeof WebSocket !== 'undefined') {
@@ -896,17 +921,30 @@ With a background in both design and technology, I bring a unique perspective to
           // allow overriding the WS server URL (useful when server is on a public host)
           const wsUrl = (window.__WS_SERVER_URL && String(window.__WS_SERVER_URL)) || (wsProto + '//' + location.host);
           const ws = new WebSocket(wsUrl);
-          ws.addEventListener('open', function() { usedServer = true; });
+          ws.addEventListener('open', function() {
+            usedServer = true;
+            // if this tab hasn't been counted in this session, tell server to increment
+            if (markSessionVisited()) ws.send(JSON.stringify({ type: 'visit' }));
+          });
 
           ws.addEventListener('message', function(ev) {
             try {
               const msg = JSON.parse(ev.data || '{}');
               if (msg.type === 'presence') updateLive(msg.online || 1);
+              if (msg.type === 'hello' || msg.type === 'totals') {
+                renderTotal(msg.totalViews || 0);
+                try { localStorage.setItem(VIEWS_KEY, String(msg.totalViews || 0)); } catch (e) {}
+              }
             } catch (e) {}
           });
 
           ws.addEventListener('close', function() { if (!usedServer) setupClientPresence(); });
           ws.addEventListener('error', function() { if (!usedServer) setupClientPresence(); });
+
+          // keep storage listener to update UI if another tab updates persisted total
+          window.addEventListener('storage', function(e) {
+            if (e.key === VIEWS_KEY) renderTotal(parseInt(e.newValue||'0', 10) || 0);
+          }, false);
 
           return; // using server path — don't initialize fallback
         }
@@ -955,7 +993,7 @@ With a background in both design and technology, I bring a unique perspective to
           broadcast && broadcast({ type: 'leave', id: myId });
         }
 
-        if ('BroadcastChannel' in window) {
+  if ('BroadcastChannel' in window) {
           bc = new BroadcastChannel(channelName);
           bc.addEventListener('message', function(ev) {
             const msg = ev.data || {};
@@ -978,6 +1016,22 @@ With a background in both design and technology, I bring a unique perspective to
           }, false);
           startHeartbeat();
           window.addEventListener('beforeunload', stopHeartbeat);
+        }
+
+        // also update total views UI if another tab increments localStorage
+        window.addEventListener('storage', function(e) {
+          if (e.key === VIEWS_KEY) {
+            const v = parseInt(e.newValue||'0',10) || 0; renderTotal(v);
+          }
+        }, false);
+
+        // If not counted this session and no server present, increment local total
+        if (markSessionVisited()) {
+          try {
+            const cur = parseInt(localStorage.getItem(VIEWS_KEY) || '0', 10) || 0;
+            localStorage.setItem(VIEWS_KEY, String(cur + 1));
+            renderTotal(cur + 1);
+          } catch (e) {}
         }
       }
 
