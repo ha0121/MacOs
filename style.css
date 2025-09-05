@@ -729,12 +729,24 @@ body {
   font-weight: 400;
 }
 
+/* vertical separator between time and site stats */
+.nav-date::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: rgba(0,0,0,0.08);
+  margin: 0 10px; /* space between time and the line */
+  vertical-align: middle;
+  border-radius: 1px;
+}
+
 /* Site stats next to nav-date: total views and live viewers */
 .nav-stats {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-left: 12px;
+  margin-left: 0; /* spacing handled by the .nav-date separator */
   font-size: 13px;
   color: #444;
 }
@@ -1137,4 +1149,3 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(-4px) scale(1);
 }
-
