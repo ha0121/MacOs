@@ -550,7 +550,7 @@ body {
   inset: 0;
   /* stronger translucent layer and added backdrop blur to make the
      background appear more faded/muted */
-  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('g') center/cover no-repeat;
+  background: linear-gradient(rgba(5,10,20,0.65), rgba(5,10,20,0.65)), url('img/không\ logo\ \(1\).jpg') center/cover no-repeat;
   /* blur the backdrop (supported browsers) for a frosted glass effect */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -738,7 +738,13 @@ body {
   font-size: 13px;
   color: #444;
 }
-.nav-stats .views { color: #333; font-weight: 500; text-transform: uppercase; }
+.nav-stats .views {
+  color: #333;
+  font-weight: 700; /* match .live */
+  text-transform: uppercase;
+  font-size: 12px; /* match .live */
+  line-height: 1;
+}
 .nav-stats .sep { width:1px; height:16px; background: rgba(0,0,0,0.08); display:inline-block; margin: 0 4px; border-radius:1px; align-self:center; }
 .nav-stats .live { display: inline-flex; align-items: center; gap:4px; color:#0b6; font-weight:700; text-transform:uppercase; font-size:12px; }
 .nav-stats .live .dot { width:8px; height:8px; background:#0b6; border-radius:50%; display:inline-block; box-shadow:0 1px 4px rgba(0,0,0,0.12); }
@@ -1131,4 +1137,3 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(-4px) scale(1);
 }
-
