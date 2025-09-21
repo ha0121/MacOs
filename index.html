@@ -85,8 +85,8 @@
   <img loading="lazy" src="img/pngtree-vietnam-flag-flying-on-pole-png-image_6601697.png" alt="Vietnam flag" class="center-flag" aria-hidden="true">
       </div>
     </div>
-  <div class="desktop-icons">
-    <div class="icon file" data-tooltip="Resume.pdf">
+    <div class="desktop-icons">
+    <div class="icon file" data-tooltip="Resume.pdf" id="resume-icon" role="link" tabindex="0" aria-label="Open Resume PDF" title="Open Resume.pdf" style="cursor:pointer;">
       <img loading="lazy" src="img/file2.avif" alt="Resume" style="width:68px;height:68px;">
       <span>Resume.pdf</span>
     </div>
@@ -662,39 +662,53 @@ With a background in both design and technology, I bring a unique perspective to
       const header = modal.querySelector('.finder-header');
       let isDragging = false, dragOffsetX = 0, dragOffsetY = 0;
 
-      header.addEventListener('mousedown', function(e) {
+      // Make the modal behave like the sticky note: start dragging when
+      // pressing anywhere on the content (mouse or touch). Keep header/title
+      // handlers as well for discoverability. Maintain bounds and z-index.
+      function startDragAt(x, y) {
         isDragging = true;
         const rect = content.getBoundingClientRect();
-        dragOffsetX = e.clientX - rect.left;
-        dragOffsetY = e.clientY - rect.top;
+        dragOffsetX = x - rect.left;
+        dragOffsetY = y - rect.top;
         content.style.position = 'fixed';
         content.style.zIndex = '101';
-      });
+      }
 
-      // Allow dragging by the small file "tab" (finder-title) as well
+      // Start drag when pressing on the content (like sticky note)
+      content.addEventListener('mousedown', function(e) {
+        // ignore if clicking interactive elements inside the content
+        if (e.target !== content && content.contains(e.target) && e.target.closest('a,button,input,iframe')) return;
+        startDragAt(e.clientX, e.clientY);
+      });
+      content.addEventListener('touchstart', function(e) {
+        const t = e.touches[0];
+        // ignore if touching interactive elements
+        if (t && e.target !== content && content.contains(e.target) && e.target.closest('a,button,input,iframe')) return;
+        startDragAt(t.clientX, t.clientY);
+      }, { passive: false });
+
+      // Allow dragging by the small file "tab" (finder-title) as well. Add
+      // small UI hints so users discover the action.
       const titleHandle = header.querySelector('.finder-title');
       if (titleHandle) {
         titleHandle.style.cursor = 'grab';
+        titleHandle.setAttribute('title', 'Drag to move');
         titleHandle.addEventListener('mousedown', function(e) {
-          isDragging = true;
-          const rect = content.getBoundingClientRect();
-          dragOffsetX = e.clientX - rect.left;
-          dragOffsetY = e.clientY - rect.top;
-          content.style.position = 'fixed';
-          content.style.zIndex = '101';
+          startDragAt(e.clientX, e.clientY);
           // prevent accidental text selection while dragging
           document.body.style.userSelect = 'none';
         });
         titleHandle.addEventListener('touchstart', function(e) {
           const t = e.touches[0];
-          isDragging = true;
-          const rect = content.getBoundingClientRect();
-          dragOffsetX = t.clientX - rect.left;
-          dragOffsetY = t.clientY - rect.top;
-          content.style.position = 'fixed';
-          content.style.zIndex = '101';
+          startDragAt(t.clientX, t.clientY);
           document.body.style.userSelect = 'none';
         }, { passive: false });
+      }
+
+      // Add hint on the header too
+      if (header) {
+        header.style.cursor = 'grab';
+        header.setAttribute('title', 'Drag to move');
       }
 
       document.addEventListener('mousemove', function(e) {
@@ -765,6 +779,42 @@ With a background in both design and technology, I bring a unique perspective to
       modal.classList.add('show');
       setTimeout(() => { modal.classList.remove('show'); }, 400);
     };
+
+    // Open Resume PDF when clicking or activating the desktop Resume icon
+    (function() {
+      const resumeIcon = document.getElementById('resume-icon');
+      if (!resumeIcon) return;
+      const resumeUrl = 'https://drive.google.com/file/d/1e2FY9Wx6pgZzLSLoNuh5LDAbMNZ0wBGI/view';
+      let moved = false;
+
+      // prevent accidental navigation while dragging
+      resumeIcon.addEventListener('mousedown', function() { moved = false; });
+      document.addEventListener('mousemove', function() { moved = true; });
+      document.addEventListener('mouseup', function() { moved = false; });
+
+      function openResume() {
+        if (moved) return; // skip if being dragged
+        try {
+          window.open(resumeUrl, '_blank', 'noopener');
+        } catch (e) {
+          // fallback: set location (will reuse tab)
+          window.location.href = resumeUrl;
+        }
+      }
+
+      resumeIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        openResume();
+      });
+
+      // Allow Enter and Space to activate
+      resumeIcon.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openResume();
+        }
+      });
+    })();
     // Đóng modal khi click ra ngoài nội dung
     document.getElementById('spotify-modal').onclick = function(e) {
       if (e.target === this) {
