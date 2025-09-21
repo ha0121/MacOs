@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    .finder-content {
+      background: #fff;
+      box-shadow: 0 2px 24px #bbb;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .finder-header {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+  </style>
 </head>
 <body>
   <!-- macOS-style login overlay (shows first) -->
@@ -147,6 +159,62 @@
   <script src="script.js"></script>
 
   <script>
+    // Kéo thả folders
+    (function() {
+      const folders = document.querySelectorAll('.desktop-icons .icon.folder');
+      folders.forEach(folder => {
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        folder.style.position = 'absolute';
+        folder.style.cursor = 'move';
+        
+        folder.addEventListener('mousedown', function(e) {
+          isDragging = true;
+          const rect = folder.getBoundingClientRect();
+          dragOffsetX = e.clientX - rect.left;
+          dragOffsetY = e.clientY - rect.top;
+          
+          // Hiệu ứng khi bắt đầu kéo
+          folder.style.transition = 'transform 0.2s';
+          folder.style.transform = 'scale(1.05)';
+          folder.style.zIndex = '1000';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+          if (isDragging) {
+            let left = e.clientX - dragOffsetX;
+            let top = e.clientY - dragOffsetY;
+            
+            // Giới hạn vùng di chuyển trong màn hình
+            left = Math.max(0, Math.min(window.innerWidth - folder.offsetWidth, left));
+            top = Math.max(0, Math.min(window.innerHeight - folder.offsetHeight, top));
+            
+            folder.style.left = left + 'px';
+            folder.style.top = top + 'px';
+          }
+        });
+
+        document.addEventListener('mouseup', function() {
+          if (isDragging) {
+            isDragging = false;
+            // Hiệu ứng khi thả folder
+            folder.style.transform = 'scale(1)';
+            folder.style.zIndex = '1';
+          }
+        });
+
+        // Ngăn chặn mở modal khi đang kéo thả
+        folder.addEventListener('dblclick', function(e) {
+          if (isDragging) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
+      });
+    })();
+
     // Kéo thả sticky-note
     (function() {
       const sticky = document.querySelector('.sticky-note');
@@ -357,7 +425,7 @@
     <!-- Modal About Me -->
     <div id="aboutme-modal" class="finder-modal" style="display:none;">
       <div class="finder-content" style="max-width:420px;min-width:320px;background:#fff;box-shadow:0 2px 24px #bbb;border-radius:16px;">
-        <div class="finder-header" style="cursor:move;">
+        <div class="finder-header" style="cursor:move; border-top-left-radius: 16px; border-top-right-radius: 16px;">
           <span class="finder-dot red"></span>
           <span class="finder-dot yellow"></span>
           <span class="finder-dot green"></span>
@@ -371,7 +439,7 @@
       <!-- Modal About Me Tab (Designer Info) -->
       <div id="aboutme-tab-modal" class="finder-modal" style="display:none;">
         <div class="finder-content" style="max-width:420px;min-width:320px;background:#fff;box-shadow:0 2px 24px #bbb;border-radius:16px;">
-          <div class="finder-header" style="cursor:move;">
+          <div class="finder-header" style="cursor:move; border-top-left-radius: 16px; border-top-right-radius: 16px;">
             <span class="finder-dot red"></span>
             <span class="finder-dot yellow"></span>
             <span class="finder-dot green"></span>
@@ -390,7 +458,7 @@ With a background in both design and technology, I bring a unique perspective to
     <!-- Modal Finder cho Project 02 -->
     <div id="finder-modal-02" class="finder-modal" style="display:none;">
       <div class="finder-content">
-        <div class="finder-header">
+        <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
           <span class="finder-dot red"></span>
           <span class="finder-dot yellow"></span>
           <span class="finder-dot green"></span>
@@ -414,7 +482,7 @@ With a background in both design and technology, I bring a unique perspective to
     <!-- Modal Finder cho Project 03 -->
     <div id="finder-modal-03" class="finder-modal" style="display:none;">
       <div class="finder-content">
-        <div class="finder-header">
+        <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
           <span class="finder-dot red"></span>
           <span class="finder-dot yellow"></span>
           <span class="finder-dot green"></span>
@@ -445,7 +513,7 @@ With a background in both design and technology, I bring a unique perspective to
     <!-- Modal Finder cho Project 04 -->
     <div id="finder-modal-04" class="finder-modal" style="display:none;">
       <div class="finder-content">
-        <div class="finder-header">
+        <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
           <span class="finder-dot red"></span>
           <span class="finder-dot yellow"></span>
           <span class="finder-dot green"></span>
@@ -480,7 +548,7 @@ With a background in both design and technology, I bring a unique perspective to
   <!-- Modal Finder cho Project 01 -->
   <div id="finder-modal" class="finder-modal" style="display:none;">
     <div class="finder-content">
-      <div class="finder-header">
+      <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
         <span class="finder-dot red"></span>
         <span class="finder-dot yellow"></span>
         <span class="finder-dot green"></span>
