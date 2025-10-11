@@ -12,7 +12,7 @@
       background: #fff;
       box-shadow: 0 2px 24px #bbb;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: visible; /* allow header/tooltips to escape rounded container */
     }
     .finder-header {
       border-top-left-radius: 16px;
@@ -66,15 +66,7 @@
         <img src="img/control-centre.svg" alt="Screen" style="height:20px;vertical-align:middle;"> -->
       </span>
   <span class="nav-date">Tuesday, Aug 12 &nbsp; <span class="time">4:25 PM</span></span>
-    <span class="nav-stats" aria-live="polite" role="status" title="Site stats">
-      <span class="views">0 views</span>
-      <span class="sep" aria-hidden="true"></span>
-      <span class="live" title="Currently viewing">
-        <span class="icon-circle" aria-hidden="true"></span>
-        <span class="online-number">1</span>
-        <span class="label">ONLINE</span>
-      </span>
-    </span>
+    <!-- Site stats removed per request -->
     </span>
   </nav>
   <div class="grid-bg"></div>
@@ -447,9 +439,13 @@
           </div>
           <div class="finder-main" style="padding:24px 24px 12px 24px;">
             <div style="font-size:17px;line-height:1.7;color:#222;white-space:pre-line;">
-Hi, I'm Hao, a UX/UI designer specializing in creating thoughtful, user-centered digital experiences that inspire people to live more intentional lives.
+Hi, I'm Hao — a UX/UI designer dedicated to creating thoughtful, user-centered digital experiences that inspire people to live more intentional lives.
 
-With a background in both design and technology, I bring a unique perspective to every project. My goal is to craft products that are not only functional, but also deeply meaningful.
+With a background in both design and technology, I bring a unique perspective to every project. My goal is to craft products that are not only functional, but also deeply meaningful and blending aesthetics, empathy, and usability in every interaction.
+
+I believe that great design starts with understanding people. Whether I’m shaping a product from the ground up or refining an existing experience, I approach every challenge with curiosity, compassion, and a focus on clarity. My process combines research, storytelling, and iteration to create intuitive solutions that feel effortless and purposeful.
+
+Beyond the pixels, I’m passionate about mindful living, creative collaboration, and using design as a tool for positive impact. I’m always eager to connect with others who share the same vision and building experiences that not only work well, but also feel right.
             </div>
           </div>
         </div>
@@ -988,174 +984,7 @@ With a background in both design and technology, I bring a unique perspective to
     updateNavDate();
     setInterval(updateNavDate, 1000);
   </script>
-  <script src="/ws-config.js"></script>
-  <script>
-    // Presence-only: live viewers via WebSocket when available, otherwise
-    // BroadcastChannel/localStorage heartbeat fallback. Total view counts
-    // have been removed per request.
-    (function() {
-      if (window.__sitePresenceInit) return;
-      window.__sitePresenceInit = true;
-  const liveWrap = document.querySelector('.nav-stats .live');
-  const viewsEl = document.querySelector('.nav-stats .views');
-  const sessionStampKey = 'site_view_session_stamp';
-  const VIEWS_KEY = 'site_total_views_v1';
-
-      function renderTotal(n) {
-        if (!viewsEl) return;
-        if (n === 1) viewsEl.textContent = `${n} view`;
-        else viewsEl.textContent = `${n} views`;
-      }
-
-      function updateLive(n) {
-        if (!liveWrap) return;
-        const num = Math.max(1, n || 1);
-        const numEl = liveWrap.querySelector('.online-number');
-        if (numEl) numEl.textContent = String(num);
-        liveWrap.setAttribute('aria-label', 'ONLINE ' + String(num));
-        const label = liveWrap.querySelector('.label');
-        if (label) label.textContent = 'ONLINE';
-      }
-
-      // render any locally persisted total while WS connects
-      (function initLocalTotal() {
-        try { renderTotal(parseInt(localStorage.getItem(VIEWS_KEY) || '0', 10) || 0); }
-        catch (e) { renderTotal(0); }
-      })();
-
-      let usedServer = false;
-
-      function markSessionVisited() {
-        if (!sessionStorage.getItem(sessionStampKey)) {
-          sessionStorage.setItem(sessionStampKey, Date.now().toString());
-          return true;
-        }
-        return false;
-      }
-
-      try {
-        if (location.protocol.indexOf('http') === 0 && typeof WebSocket !== 'undefined') {
-          const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-          // allow overriding the WS server URL (useful when server is on a public host)
-          const wsUrl = (window.__WS_SERVER_URL && String(window.__WS_SERVER_URL)) || (wsProto + '//' + location.host);
-          const ws = new WebSocket(wsUrl);
-          ws.addEventListener('open', function() {
-            usedServer = true;
-            // if this tab hasn't been counted in this session, tell server to increment
-            if (markSessionVisited()) ws.send(JSON.stringify({ type: 'visit' }));
-          });
-
-          ws.addEventListener('message', function(ev) {
-            try {
-              const msg = JSON.parse(ev.data || '{}');
-              if (msg.type === 'presence') updateLive(msg.online || 1);
-              if (msg.type === 'hello' || msg.type === 'totals') {
-                renderTotal(msg.totalViews || 0);
-                try { localStorage.setItem(VIEWS_KEY, String(msg.totalViews || 0)); } catch (e) {}
-              }
-            } catch (e) {}
-          });
-
-          ws.addEventListener('close', function() { if (!usedServer) setupClientPresence(); });
-          ws.addEventListener('error', function() { if (!usedServer) setupClientPresence(); });
-
-          // keep storage listener to update UI if another tab updates persisted total
-          window.addEventListener('storage', function(e) {
-            if (e.key === VIEWS_KEY) renderTotal(parseInt(e.newValue||'0', 10) || 0);
-          }, false);
-
-          return; // using server path — don't initialize fallback
-        }
-      } catch (err) { /* fall back */ }
-
-      function setupClientPresence() {
-        if (window.__siteClientPresenceInit) return;
-        window.__siteClientPresenceInit = true;
-        const channelName = 'site-presence-v1';
-        const presence = {};
-        let bc = null;
-        let heartbeat = null;
-
-        function makeId() { return Math.random().toString(36).slice(2,9); }
-        const myId = makeId();
-
-        function broadcast(msg) {
-          try {
-            if (bc) bc.postMessage(msg);
-            else localStorage.setItem('site_pres_msg', JSON.stringify(Object.assign({__t: Date.now()}, msg)));
-          } catch (e) { try { localStorage.setItem('site_pres_msg', JSON.stringify(Object.assign({__t: Date.now()}, msg))); } catch (e) {} }
-        }
-
-        function computeLiveFromPresence() {
-          const now = Date.now();
-          let n = 0;
-          for (const k in presence) {
-            if (presence[k] && (now - presence[k]) < 6000) n++;
-          }
-          updateLive(Math.max(1, n));
-        }
-
-        function startHeartbeat() {
-          const now = Date.now();
-          presence[myId] = now;
-          broadcast({ type: 'ping', id: myId, t: now });
-          computeLiveFromPresence();
-          if (heartbeat) clearInterval(heartbeat);
-          heartbeat = setInterval(() => { const t = Date.now(); presence[myId] = t; broadcast({ type: 'ping', id: myId, t }); computeLiveFromPresence(); }, 2500);
-        }
-
-        function stopHeartbeat() {
-          if (heartbeat) clearInterval(heartbeat);
-          delete presence[myId];
-          computeLiveFromPresence();
-          broadcast && broadcast({ type: 'leave', id: myId });
-        }
-
-  if ('BroadcastChannel' in window) {
-          bc = new BroadcastChannel(channelName);
-          bc.addEventListener('message', function(ev) {
-            const msg = ev.data || {};
-            if (msg.id === myId) return;
-            if (msg.type === 'ping') { presence[msg.id] = msg.t || Date.now(); computeLiveFromPresence(); }
-            if (msg.type === 'leave') { delete presence[msg.id]; computeLiveFromPresence(); }
-          });
-          window.addEventListener('beforeunload', stopHeartbeat);
-          startHeartbeat();
-        } else {
-          window.addEventListener('storage', function(e) {
-            if (!e.key) return;
-            if (e.key === 'site_pres_msg' && e.newValue) {
-              try {
-                const msg = JSON.parse(e.newValue);
-                if (msg.type === 'ping') { presence[msg.id] = msg.t || Date.now(); computeLiveFromPresence(); }
-                if (msg.type === 'leave') { delete presence[msg.id]; computeLiveFromPresence(); }
-              } catch (err) {}
-            }
-          }, false);
-          startHeartbeat();
-          window.addEventListener('beforeunload', stopHeartbeat);
-        }
-
-        // also update total views UI if another tab increments localStorage
-        window.addEventListener('storage', function(e) {
-          if (e.key === VIEWS_KEY) {
-            const v = parseInt(e.newValue||'0',10) || 0; renderTotal(v);
-          }
-        }, false);
-
-        // If not counted this session and no server present, increment local total
-        if (markSessionVisited()) {
-          try {
-            const cur = parseInt(localStorage.getItem(VIEWS_KEY) || '0', 10) || 0;
-            localStorage.setItem(VIEWS_KEY, String(cur + 1));
-            renderTotal(cur + 1);
-          } catch (e) {}
-        }
-      }
-
-      setupClientPresence();
-    })();
-  </script>
+  <!-- Presence and view-counting scripts removed per user request -->
 </body>
 
 </html>
