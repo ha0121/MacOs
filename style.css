@@ -302,8 +302,9 @@
   max-width: 99vw;
   min-height: 500px;
   /* allow header/tooltips to escape the rounded container instead of being clipped */
-  overflow: visible;
+  overflow: visible; /* ensure pseudo-element tooltips are visible */
   position: relative;
+  z-index: 111; /* sit above page background but below modal-level overlays */
 }
 .finder-content { transition: left 0.22s ease, top 0.22s ease, width 0.22s ease, height 0.22s ease, transform 0.18s ease; }
 
@@ -363,6 +364,33 @@
   margin-right: 6px;
 }
 .finder-dot { cursor: default; }
+/* Hide site presence UI (views / online) removed per request */
+.nav-stats,
+.nav-stats * {
+  display: none !important;
+}
+
+/* small vertical divider between date text and time */
+.nav-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-date .time {
+  position: relative;
+  padding-left: 10px; /* space for divider */
+}
+.nav-date .time::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 18px;
+  background: rgba(0,0,0,0.12);
+  border-radius: 1px;
+}
 .finder-dot.red, .finder-dot.yellow { cursor: pointer; }
 .finder-dot.red { background: #ff5f57; }
 .finder-dot.green { background: #28c840; }
@@ -387,7 +415,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 140ms ease, transform 200ms cubic-bezier(.2,.9,.2,1);
-  z-index: 9999;
+  z-index: 1200; /* ensure tooltip sits above other modal content */
 }
 .finder-dot::before {
   content: "";
@@ -402,7 +430,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 140ms ease, transform 200ms cubic-bezier(.2,.9,.2,1);
-  z-index: 9998;
+  z-index: 1199; /* pointer sits just under tooltip */
 }
 /* specific labels */
 .finder-dot.red::after { content: "Close"; }
@@ -742,29 +770,7 @@ body {
 }
 
 /* Site stats next to nav-date: total views and live viewers */
-.nav-stats {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 0; /* spacing handled by the .nav-date separator */
-  font-size: 13px;
-  color: #444;
-}
-.nav-stats .views {
-  color: #333;
-  font-weight: 700; /* match .live */
-  text-transform: uppercase;
-  font-size: 12px; /* match .live */
-  line-height: 1;
-}
-.nav-stats .sep { width:1px; height:16px; background: rgba(0,0,0,0.08); display:inline-block; margin: 0 4px; border-radius:1px; align-self:center; }
-.nav-stats .live { display: inline-flex; align-items: center; gap:4px; color:#0b6; font-weight:700; text-transform:uppercase; font-size:12px; }
-.nav-stats .live .dot { width:8px; height:8px; background:#0b6; border-radius:50%; display:inline-block; box-shadow:0 1px 4px rgba(0,0,0,0.12); }
-.nav-stats .live .count { font-weight:700; color:#0b6; }
-.nav-stats .views .face { display:none; }
-.nav-stats .live .icon-circle { /* hide the circle per request */ display: none; width:10px; height:10px; background: #0b6; border-radius:50%; box-shadow:0 1px 4px rgba(0,0,0,0.12); }
-.nav-stats .live .online-number { font-weight:700; color:#0b6; margin: 0 2px 0 0; }
-.nav-stats .live .label { font-weight:700; color:#0b6; margin-left:0; font-size:12px; letter-spacing:0.6px; }
+/* Detailed nav-stats styles removed (presence UI disabled) */
 
 /* make the time slightly bolder and give it a subtle rainbow animated gradient */
 .nav-date .time {
