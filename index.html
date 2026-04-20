@@ -18,36 +18,255 @@
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
     }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #0f0f0f;
+      color: #e5e5e5;
+    }
+
+    body.dark-mode .navbar {
+      background-color: #1a1a1a;
+      border-bottom-color: #333;
+      color: #e5e5e5;
+    }
+
+    body.dark-mode .nav-link {
+      color: #fff;
+    }
+
+    body.dark-mode .nav-link:hover {
+      color: #b0b0b0;
+    }
+
+    body.dark-mode .nav-date {
+      color: #a9a9a9;
+    }
+
+    body.dark-mode .nav-icons {
+      color: #e5e5e5;
+    }
+
+    body.dark-mode .sticky-note {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+      color: #e5e5e5;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+      border: 1px solid #333;
+    }
+
+    body.dark-mode .sticky-note b {
+      color: #fff;
+    }
+
+    body.dark-mode .sticky-note ul li {
+      color: #b0b0b0;
+    }
+
+    body.dark-mode .sticky-note .done {
+      color: #666;
+      text-decoration-color: #666;
+    }
+
+    body.dark-mode .grid-bg {
+      background-color: #0f0f0f;
+      background-image: 
+        linear-gradient(#222 0.5px, transparent 0.5px),
+        linear-gradient(90deg, #222 0.5px, transparent 0.5px);
+    }
+
+    body.dark-mode .finder-modal {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    body.dark-mode .finder-content {
+      background: #1a1a1a;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.9);
+      color: #e5e5e5;
+      border: 1px solid #333;
+    }
+
+    body.dark-mode .finder-header {
+      background: linear-gradient(to bottom, #242424, #1a1a1a);
+      border-bottom: 1px solid #333;
+    }
+
+    body.dark-mode .finder-dot {
+      opacity: 0.8;
+    }
+
+    body.dark-mode .finder-title {
+      color: #e5e5e5;
+      font-weight: 500;
+    }
+
+    body.dark-mode .finder-main {
+      background-color: #1a1a1a;
+      color: #e5e5e5;
+    }
+
+    body.dark-mode .finder-main-title {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    body.dark-mode .finder-sub {
+      color: #888;
+    }
+
+    body.dark-mode .finder-description {
+      color: #b0b0b0;
+    }
+
+    body.dark-mode .finder-description p {
+      color: #b0b0b0;
+      line-height: 1.6;
+    }
+
+    body.dark-mode .finder-description strong {
+      color: #e5e5e5;
+    }
+
+    body.dark-mode .finder-description a {
+      color: #87ceeb;
+    }
+
+    body.dark-mode .finder-description a:hover {
+      color: #5dade2;
+    }
+
+    body.dark-mode .center-title {
+      color: #e5e5e5;
+    }
+
+    body.dark-mode .center-title h1 {
+      color: #fff;
+    }
+
+    body.dark-mode .center-subtitle {
+      color: #777;
+    }
+
+    body.dark-mode .spotify-content {
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      border: 1px solid #333;
+    }
+
+    body.dark-mode .spotify-content iframe {
+      background-color: #1a1a1a;
+    }
+
+    body.dark-mode .dock {
+      background: rgba(26, 26, 26, 0.95);
+      border-top: 1px solid #333;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.8);
+    }
+
+    body.dark-mode .dock img {
+      filter: brightness(0.9);
+    }
+
+    body.dark-mode .dock-dot {
+      background-color: #87ceeb;
+    }
+
+    body.dark-mode #dark-mode-toggle {
+      color: #e5e5e5;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    body.dark-mode #dark-mode-toggle:hover {
+      color: #e5e5e5;
+      transform: scale(1.15) rotate(20deg);
+    }
+
+    #dark-mode-toggle {
+      background: transparent;
+      border: none;
+      color: #333;
+      box-shadow: none;
+    }
+
+    #dark-mode-toggle:hover {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      transform: scale(1.15) rotate(20deg);
+    }
+
+    #dark-mode-toggle svg {
+      transition: transform 0.3s ease;
+    }
+
+    #dark-mode-toggle:hover svg {
+      transform: rotate(20deg);
+    }
+
+    body.dark-mode #trash-context-menu {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+    }
+
+    body.dark-mode #trash-context-menu > div > div {
+      color: #e5e5e5;
+    }
+
+    body.dark-mode #trash-context-menu > div > div:hover {
+      background: #2a2a2a !important;
+      color: #87ceeb;
+    }
+
+    body.dark-mode .icon.folder span,
+    body.dark-mode .icon.file span {
+      color: #b0b0b0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    body.dark-mode a {
+      color: #87ceeb;
+    }
+
+    body.dark-mode a:hover {
+      color: #5dade2;
+    }
+
+    body.dark-mode .center-title .char.hover-region {
+      color: #888;
+    }
+
+    body.dark-mode .center-title .char-sub.hover-region {
+      color: #666;
+    }
+
+    /* Scrollbar styling for dark mode */
+    body.dark-mode::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    body.dark-mode::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    body.dark-mode::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 5px;
+    }
+
+    body.dark-mode::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
   </style>
 </head>
 <body>
-  <!-- macOS-style login overlay (shows first) -->
-  <div id="login-overlay" class="login-overlay" role="dialog" aria-modal="true">
-    <div class="login-topbar">
-      <!-- <img src="img/apple2.svg" alt="Apple" class="login-apple" /> -->
-      <div class="login-status">
-        <!-- status icons intentionally omitted here -->
-      </div>
-    </div>
-    <div class="login-center">
-  <img loading="lazy" src="img/35253f64facc999e781f9d679feb1841.jpg" alt="User Avatar" class="login-avatar" />
-      <!-- <div class="login-username">HAO NGUYEN PORTFOLIO</div> -->
-  <!-- <div class="login-time" aria-hidden="true"></div> -->
-      <div class="login-input-wrap">
-  <input id="login-password" class="login-input" type="password" placeholder="Press anything" aria-label="Password" style="border-radius:45px;" />
-        <button type="button" class="login-toggle" aria-label="Toggle password visibility" title="Show password" aria-pressed="false">
-          <!-- eye open (visible when password is hidden) -->
-          <svg class="icon-open" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <path class="eye-path" d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
-            <circle class="eye-circle" cx="12" cy="12" r="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle>
-          </svg>
-          <!-- eye closed / eye-off (visible when password is shown) -->
-          <svg class="icon-closed" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <path class="eye-path" d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7 .97-1.6 2.56-3.78 4.7-5.56M6.34 6.34A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7-.97 1.6-2.56 3.78-4.7 5.56" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path class="eye-path" d="M1 1l22 22" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-          </svg>
-        </button>
-      </div>
+  <!-- Login overlay removed: page opens directly to content -->
+  <!-- Loading overlay: visible by default so it shows on initial load / F5 -->
+  <div id="loading-overlay" aria-hidden="false">
+    <div class="loading-box" role="status" aria-live="polite">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <div class="loading-text">Loading</div>
     </div>
   </div>
 
@@ -70,14 +289,35 @@
     </span>
   </nav>
   <div class="grid-bg"></div>
+
+  <!-- Drawing Canvas -->
+  <canvas id="drawing-canvas" style="position: fixed; top: 0; left: 0; z-index: 1; cursor: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22><path d=%22M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z%22 fill=%22%23333%22/><path d=%22M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z%22 fill=%22%23333%22/></svg>') 0 24, auto; display: none;"></canvas>
+
+  <!-- Dark mode toggle button -->
+  <button id="dark-mode-toggle" style="position: fixed; bottom: 20px; left: 20px; z-index: 10001; background: none; border: none; cursor: pointer; font-size: 28px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; padding: 0; width: auto; height: auto;" title="Toggle dark mode">
+    <svg id="light-icon" viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color: #333; display: block;">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg id="dark-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor" style="color: #333; display: none;">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
   <div class="sticky-note">
-    <b>To do:</b>
+    <b>To do (2026 update):</b>
     <ul>
       <li class="done">Drink water every day</li>
       <li>Move to another country</li>
       <li>Build that banger spotify playlist</li>
-      <li>Deploying my first indie game</li>
-      <li>Got a girl friend</li>
+      <li class="done">Deploying my first indie game</li>
+      <li class="done">Got a girl friend</li>
       <li>Travel somewhere new every year</li>
     </ul>
   </div>
@@ -114,9 +354,15 @@
       <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="Project 04" style="width:68px;height:68px;">
       <span>JOB AND RECRUITMENT</span>
     </div>
+    <div class="icon folder" id="minigame-icon">
+      <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="Mini Game" style="width:68px;height:68px;">
+      <span>MINI GAME</span>
+    </div>
+    <div class="trash-icon">
       <div class="icon folder">
-      <img loading="lazy" src="img/trash111.avif" alt="Project 04" style="width:68px;height:68px;">
-      <span>Dont Click</span>
+      <img loading="lazy" src="img/trash.avif" alt="Project 04" style="width:68px;height:68px;">
+      <span>Trash</span>
+    </div>
     </div>
     <!-- <div class="icon trash">
       <img src="img/trash111.avif" alt="Don't Look">
@@ -151,6 +397,131 @@
   <script src="script.js"></script>
 
   <script>
+    // Dark mode toggle
+    (function() {
+      const toggleBtn = document.getElementById('dark-mode-toggle');
+      const lightIcon = document.getElementById('light-icon');
+      const darkIcon = document.getElementById('dark-icon');
+      const htmlElement = document.documentElement;
+      
+      // Add smooth transition
+      const style = document.createElement('style');
+      style.textContent = `
+        * {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        img, .dock-spotify img {
+          transition: filter 0.3s ease !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Check localStorage for saved preference
+      const savedMode = localStorage.getItem('darkMode');
+      if (savedMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        lightIcon.style.display = 'none';
+        darkIcon.style.display = 'block';
+        darkIcon.style.color = '#e5e5e5';
+      } else {
+        lightIcon.style.display = 'block';
+        darkIcon.style.display = 'none';
+      }
+
+      toggleBtn.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        
+        if (document.body.classList.contains('dark-mode')) {
+          lightIcon.style.display = 'none';
+          darkIcon.style.display = 'block';
+          darkIcon.style.color = '#e5e5e5';
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          lightIcon.style.display = 'block';
+          darkIcon.style.display = 'none';
+          lightIcon.style.color = '#333';
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      });
+    })();
+  </script>
+
+  <script>
+    // Drawing canvas with right-click drag and left-click erase
+    (function() {
+      const canvas = document.getElementById('drawing-canvas');
+      const ctx = canvas.getContext('2d');
+      let isDrawing = false;
+      let isErasing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Set canvas size to match window
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      // Left-click or Right-click
+      document.addEventListener('mousedown', function(e) {
+        canvas.style.display = 'block';
+        
+        if (e.button === 2) { // Right-click: draw
+          e.preventDefault();
+          isDrawing = true;
+          lastX = e.clientX;
+          lastY = e.clientY;
+        } else if (e.button === 0) { // Left-click: erase
+          isErasing = true;
+          lastX = e.clientX;
+          lastY = e.clientY;
+        }
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        if (isDrawing && e.buttons === 2) { // Right button held: draw
+          ctx.strokeStyle = '#333';
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+
+          lastX = x;
+          lastY = y;
+        } else if (isErasing && e.buttons === 1) { // Left button held: erase
+          ctx.clearRect(x - 15, y - 15, 30, 30);
+          lastX = x;
+          lastY = y;
+        }
+      });
+
+      document.addEventListener('mouseup', function(e) {
+        if (e.button === 2) {
+          isDrawing = false;
+        } else if (e.button === 0) {
+          isErasing = false;
+        }
+      });
+
+      // Prevent context menu
+      document.addEventListener('contextmenu', function(e) {
+        if (canvas.style.display === 'block') {
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
+
+  <script>
     // Kéo thả folders
     (function() {
       const folders = document.querySelectorAll('.desktop-icons .icon.folder');
@@ -159,7 +530,13 @@
         let dragOffsetX = 0;
         let dragOffsetY = 0;
 
+        // Capture vị trí ban đầu trước khi set position absolute
+        const rect = folder.getBoundingClientRect();
+        const containerRect = folder.parentElement.getBoundingClientRect();
+        
         folder.style.position = 'absolute';
+        folder.style.left = (rect.left - containerRect.left) + 'px';
+        folder.style.top = (rect.top - containerRect.top) + 'px';
         folder.style.cursor = 'move';
         
         folder.addEventListener('mousedown', function(e) {
@@ -202,9 +579,253 @@
           if (isDragging) {
             e.preventDefault();
             e.stopPropagation();
+            return;
+          }
+          
+          // Open modal for this folder
+          const folderName = folder.querySelector('span')?.textContent || '';
+          const modalMap = {
+            'About Me': 'aboutme-modal',
+            'ZETA APP': 'finder-modal-02',
+            'BLUES QUIZ - CHELSEA FC X FPT': 'finder-modal',
+            'FUKUOKA SOFTBANK HAWKS GAMING WEBSITE': 'finder-modal-03',
+            'JOB AND RECRUITMENT': 'finder-modal-04',
+            'MINI GAME': 'minigame-modal'
+          };
+          
+          if (modalMap[folderName]) {
+            const modalId = modalMap[folderName];
+            const modal = document.getElementById(modalId);
+            if (modal) {
+              const content = modal.querySelector('.finder-content');
+              if (content) {
+                content.style.position = 'fixed';
+                content.style.left = content.style.left || '150px';
+                content.style.top = content.style.top || '150px';
+              }
+              modal.style.display = 'flex';
+              modal.classList.add('show');
+              setTimeout(() => { modal.classList.remove('show'); }, 400);
+            }
           }
         });
+        
+        // Enable native drag for Recycle Bin drop support
+        folder.draggable = true;
+        folder.addEventListener('dragstart', function(e) {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/html', folder.innerHTML);
+          folder.classList.add('dragging-folder');
+        });
+        folder.addEventListener('dragend', function(e) {
+          folder.classList.remove('dragging-folder');
+        });
       });
+    })();
+
+    // Recycle Bin drag-drop to delete folders
+    (function() {
+      const recycleBin = document.querySelector('.trash-icon .icon.folder');
+      if (!recycleBin) return;
+      
+      // Store deleted folders
+      window.deletedFolders = [];
+      
+      // Play delete sound when file is deleted
+      function playDeleteSound() {
+        try {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          
+          // Resume context if suspended
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+          
+          const now = audioCtx.currentTime;
+          
+          // Create a "pop" sound like something being thrown
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          
+          // Quick pop sound with pitch drop
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(250, now);
+          osc.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+          
+          // Sharp attack, quick decay
+          gain.gain.setValueAtTime(0.4, now);
+          gain.gain.exponentialRampToValueAtTime(0.1, now + 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+          
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.start(now);
+          osc.stop(now + 0.15);
+          
+          // Add a second higher-pitched "click" sound for brightness
+          const osc2 = audioCtx.createOscillator();
+          const gain2 = audioCtx.createGain();
+          
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(400, now);
+          osc2.frequency.exponentialRampToValueAtTime(200, now + 0.1);
+          
+          gain2.gain.setValueAtTime(0.15, now);
+          gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+          
+          osc2.connect(gain2);
+          gain2.connect(audioCtx.destination);
+          
+          osc2.start(now);
+          osc2.stop(now + 0.1);
+        } catch (e) {
+          // Silently fail if audio context not available
+        }
+      }
+      
+      window.playDeleteSound = playDeleteSound;
+      
+      recycleBin.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        // Highlight recycle bin when dragging over
+        recycleBin.style.transform = 'scale(1.15)';
+      });
+      
+      recycleBin.addEventListener('dragenter', function(e) {
+        e.preventDefault();
+        recycleBin.style.transform = 'scale(1.15)';
+      });
+      
+      recycleBin.addEventListener('dragleave', function(e) {
+        // Only reset if leaving the trash icon completely
+        if (e.target === recycleBin || !recycleBin.contains(e.relatedTarget)) {
+          recycleBin.style.transform = '';
+        }
+      });
+      
+      // Drop handler: delete the folder with animation
+      recycleBin.addEventListener('drop', function(e) {
+        e.preventDefault();
+        
+        // Reset trash icon style
+        recycleBin.style.transform = '';
+        
+        // Play delete sound
+        playDeleteSound();
+        
+        // Find and delete the dragging folder
+        const draggingFolder = document.querySelector('.desktop-icons .icon.folder.dragging-folder');
+        if (draggingFolder && draggingFolder !== recycleBin) {
+          // Get folder name before deleting
+          const folderName = draggingFolder.querySelector('span').textContent;
+          
+          // Get positions for animation
+          const folderRect = draggingFolder.getBoundingClientRect();
+          const trashRect = recycleBin.getBoundingClientRect();
+          
+          // Create particle effect
+          const particleCount = 8;
+          for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+              position: fixed;
+              width: 6px;
+              height: 6px;
+              background: rgba(255, 100, 100, 0.8);
+              border-radius: 50%;
+              pointer-events: none;
+              z-index: 999;
+              left: ${folderRect.left + folderRect.width / 2}px;
+              top: ${folderRect.top + folderRect.height / 2}px;
+            `;
+            document.body.appendChild(particle);
+            
+            const angle = (i / particleCount) * Math.PI * 2;
+            const velocity = 3 + Math.random() * 3;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+            let x = folderRect.left + folderRect.width / 2;
+            let y = folderRect.top + folderRect.height / 2;
+            let life = 1;
+            
+            const animateParticle = () => {
+              life -= 0.05;
+              x += vx;
+              y += vy;
+              particle.style.left = x + 'px';
+              particle.style.top = y + 'px';
+              particle.style.opacity = life;
+              
+              if (life > 0) {
+                requestAnimationFrame(animateParticle);
+              } else {
+                particle.remove();
+              }
+            };
+            animateParticle();
+          }
+          
+          // Shake animation for trash icon
+          let shakeAmount = 3;
+          const originalTransform = recycleBin.style.transform;
+          for (let i = 0; i < 4; i++) {
+            setTimeout(() => {
+              recycleBin.style.transform = `scale(1.15) translateX(${(i % 2 === 0 ? 1 : -1) * shakeAmount}px)`;
+            }, i * 50);
+          }
+          setTimeout(() => {
+            recycleBin.style.transform = 'scale(1.15)';
+          }, 200);
+          
+          // Main folder deletion animation
+          draggingFolder.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+          draggingFolder.style.opacity = '0';
+          draggingFolder.style.transform = `scale(0.3) translate(${trashRect.left - folderRect.left}px, ${trashRect.top - folderRect.top}px)`;
+          
+          setTimeout(() => {
+            draggingFolder.remove();
+            // Add to deleted folders list
+            window.deletedFolders.push(folderName);
+            // Update trash modal
+            updateTrashModal();
+          }, 400);
+          
+          // Change trash icon image to trash111.avif
+          const trashImg = recycleBin.querySelector('img');
+          if (trashImg) {
+            trashImg.src = 'img/trash111.avif';
+          }
+          
+          // Reset trash icon after animation
+          setTimeout(() => {
+            recycleBin.style.transform = '';
+          }, 300);
+        }
+      });
+      
+      // Function to update trash modal with deleted items
+      window.updateTrashModal = function() {
+        const trashContent = document.querySelector('#trash-modal .finder-main');
+        if (!trashContent) return;
+        
+        if (window.deletedFolders.length === 0) {
+          trashContent.innerHTML = '<div style="text-align: center; color: #999; padding: 60px 20px;"><div style="font-size: 14px;">Trash is empty</div></div>';
+        } else {
+          let html = '<div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">';
+          window.deletedFolders.forEach(folderName => {
+            html += `
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <img src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="${folderName}" style="width: 60px; height: 60px;">
+                <span style="font-size: 12px; text-align: center; max-width: 80px; word-break: break-word;">${folderName}</span>
+              </div>
+            `;
+          });
+          html += '</div>';
+          trashContent.innerHTML = html;
+        }
+      };
     })();
 
     // Kéo thả sticky-note
@@ -244,110 +865,74 @@
         isDragging = false;
       });
     })();
-  </script>
 
-  <script>
-    // Trigger unlock animation when user types a password or presses Enter
+    // Dock icon rearrangement
     (function() {
-      const overlay = document.getElementById('login-overlay');
-      const pw = document.getElementById('login-password');
-      if (!overlay || !pw) return;
+      const dock = document.querySelector('.dock');
+      if (!dock) return;
 
-      let unlocked = false;
+      const dockItems = dock.querySelectorAll('img, .dock-spotify');
+      let draggedItem = null;
 
-      function doUnlock() {
-        if (unlocked) return; // only once
-        unlocked = true;
-        // add class to play animations
-        overlay.classList.add('unlocking');
-        // after the unlock animation completes, fade out overlay completely
-        setTimeout(() => {
-          overlay.classList.add('hide');
-          // remove overlay from accessibility tree after fade-out completes
-          setTimeout(() => {
-            overlay.style.display = 'none';
-            overlay.setAttribute('aria-hidden', 'true');
-          }, 700);
-        }, 760);
-      }
+      dockItems.forEach(item => {
+        item.draggable = true;
+        item.style.cursor = 'grab';
+        item.style.transition = 'transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease';
 
-      // If user presses Enter in the password field, unlock
-      pw.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
+        item.addEventListener('dragstart', function(e) {
+          draggedItem = item;
+          item.style.opacity = '0.5';
+          item.style.transform = 'scale(1.2) rotate(5deg)';
+          item.style.filter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))';
+          e.dataTransfer.effectAllowed = 'move';
+        });
+
+        item.addEventListener('dragover', function(e) {
           e.preventDefault();
-          doUnlock();
-        }
-      });
-
-  // NOTE: auto-unlock on first typed character removed — unlock now only
-  // happens when user presses Enter to avoid accidental entry.
-    })();
-  </script>
-
-  <script>
-    // Clear the login password when the page is refreshed (F5/Ctrl+R)
-    (function() {
-      const pw = document.getElementById('login-password');
-      if (!pw) return;
-
-      // Try to prevent browser from restoring value
-      try { pw.autocomplete = 'off'; } catch (e) {}
-      // clear now
-      try { pw.value = ''; } catch (e) {}
-
-      // helper: clear immediately and shortly after to beat browser restore
-      function clearPwSoon() {
-        try { pw.value = ''; } catch (e) {}
-        setTimeout(function() { try { pw.value = ''; } catch (e) {} }, 10);
-      }
-
-      // Clear before reload when user presses F5, or Ctrl+R (cover key and keyCode)
-      window.addEventListener('keydown', function(e) {
-        const key = e.key;
-        const code = e.keyCode || e.which;
-        if (key === 'F5' || code === 116 || (e.ctrlKey && (key === 'r' || key === 'R' || code === 82))) {
-          clearPwSoon();
-        }
-      }, { passive: true });
-
-      // Clear on lifecycle events that may save/restore form state
-      window.addEventListener('beforeunload', clearPwSoon);
-      window.addEventListener('pagehide', function(e) { if (!e.persisted) clearPwSoon(); });
-      window.addEventListener('pageshow', function(e) { if (e.persisted) clearPwSoon(); });
-
-      // Some browsers save form state on visibility change
-      document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'hidden') clearPwSoon();
-      });
-    })();
-  </script>
-    <script>
-      // Toggle password visibility for login input
-      (function() {
-        const pw = document.getElementById('login-password');
-        const btn = document.querySelector('.login-toggle');
-        if (!pw || !btn) return;
-
-        btn.addEventListener('click', function() {
-          const isPw = pw.type === 'password';
-          pw.type = isPw ? 'text' : 'password';
-          btn.title = isPw ? 'Hide password' : 'Show password';
-          btn.setAttribute('aria-pressed', String(isPw));
-          // swap icons
-          const openIcon = btn.querySelector('.icon-open');
-          const closedIcon = btn.querySelector('.icon-closed');
-          if (openIcon && closedIcon) {
-            if (isPw) {
-              openIcon.style.display = 'none';
-              closedIcon.style.display = 'block';
-            } else {
-              openIcon.style.display = 'block';
-              closedIcon.style.display = 'none';
-            }
+          e.dataTransfer.dropEffect = 'move';
+          if (item !== draggedItem) {
+            item.style.borderLeft = '2px solid #0071e3';
+            item.style.transform = 'scale(0.85)';
           }
         });
-      })();
-    </script>
+
+        item.addEventListener('dragleave', function(e) {
+          item.style.borderLeft = '';
+          if (item !== draggedItem) {
+            item.style.transform = '';
+          }
+        });
+
+        item.addEventListener('drop', function(e) {
+          e.preventDefault();
+          if (item !== draggedItem && draggedItem) {
+            // Swap items in dock
+            const temp = document.createElement('div');
+            draggedItem.parentNode.insertBefore(temp, draggedItem);
+            item.parentNode.insertBefore(draggedItem, item);
+            temp.parentNode.insertBefore(item, temp);
+            temp.parentNode.removeChild(temp);
+          }
+        });
+
+        item.addEventListener('dragend', function(e) {
+          item.style.opacity = '';
+          item.style.transform = '';
+          item.style.filter = '';
+          item.style.borderLeft = '';
+          dockItems.forEach(i => {
+            i.style.borderLeft = '';
+            i.style.transform = '';
+          });
+          draggedItem = null;
+        });
+      });
+    })();
+  </script>
+  <!-- Small enable-sound control for browsers that block autoplay -->
+  <!-- Sound will attempt to auto-unlock; button removed per user request -->
+
+  
 
   <script>
     // Animation cho center-title khi mở web
@@ -581,6 +1166,48 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
     </div>
   </div>
 
+  <!-- Modal Mini Game -->
+  <div id="minigame-modal" class="finder-modal" style="display:none;">
+    <div class="finder-content">
+      <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+        <span class="finder-dot red"></span>
+        <span class="finder-dot yellow"></span>
+        <span class="finder-dot green"></span>
+        <span class="finder-title">MINI GAME</span>
+      </div>
+      <div class="finder-main">
+        <div class="finder-main-title">MINI GAME<br><span class="finder-sub"></span></div>
+        <div class="finder-description">
+          <p>Coming Soon! A fun mini game experience is being developed.</p>
+          <p><strong>YEAR</strong>: 2026</p>
+          <p><strong>STATUS</strong>: In Development</p>
+          <div class="finder-image" style="margin: 24px 0; text-align: center;">
+            <div style="width: 100%; height: 300px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+              🎮
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Trash/Recycle Bin -->
+  <div id="trash-modal" class="finder-modal" style="display:none;">
+    <div class="finder-content">
+      <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+        <span class="finder-dot red"></span>
+        <span class="finder-dot yellow"></span>
+        <span class="finder-dot green"></span>
+        <span class="finder-title">Recycle Bin</span>
+      </div>
+      <div class="finder-main" style="padding: 20px; min-height: 300px; min-width: 200px;">
+        <div style="text-align: center; color: #999; padding: 60px 20px;">
+          <div style="font-size: 14px;">Recycle Bin is empty</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Mở modal khi double click vào About Me
     document.querySelector('.desktop-icons .icon.folder:nth-child(2)').ondblclick = function() {
@@ -651,6 +1278,19 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
       modal.classList.add('show');
       setTimeout(() => { modal.classList.remove('show'); }, 400);
     };
+
+    // Mở modal khi double click vào Mini Game
+    document.getElementById('minigame-icon').ondblclick = function() {
+      const modal = document.getElementById('minigame-modal');
+      const content = modal.querySelector('.finder-content');
+      content.style.position = '';
+      content.style.left = '';
+      content.style.top = '';
+      modal.style.display = 'flex';
+      modal.classList.add('show');
+      setTimeout(() => { modal.classList.remove('show'); }, 400);
+    };
+
     // Đóng modal khi click ra ngoài nội dung cho About Me
     document.getElementById('aboutme-modal').onclick = function(e) {
       if (e.target === this) {
@@ -717,9 +1357,31 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
           }, 350);
         }
       };
+      // Đóng modal khi click ra ngoài nội dung cho Mini Game
+      document.getElementById('minigame-modal').onclick = function(e) {
+        if (e.target === this) {
+          const modal = this;
+          modal.classList.add('hide');
+          setTimeout(() => {
+            modal.classList.remove('hide');
+            modal.style.display = 'none';
+          }, 350);
+        }
+      };
+      // Đóng modal khi click ra ngoài nội dung cho Trash
+      document.getElementById('trash-modal').onclick = function(e) {
+        if (e.target === this) {
+          const modal = this;
+          modal.classList.add('hide');
+          setTimeout(() => {
+            modal.classList.remove('hide');
+            modal.style.display = 'none';
+          }, 350);
+        }
+      };
 
     // Kéo thả cho tất cả các modal Finder và About Me
-    ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04'].forEach(function(modalId) {
+    ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'minigame-modal', 'trash-modal'].forEach(function(modalId) {
       const modal = document.getElementById(modalId);
       if (!modal) return;
       const content = modal.querySelector('.finder-content');
@@ -829,7 +1491,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
         });
       }
 
-      ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04'].forEach(function(id) {
+      ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'minigame-modal', 'trash-modal'].forEach(function(id) {
         const modal = document.getElementById(id);
         if (!modal) return;
         initFinderControls(modal);
@@ -842,6 +1504,221 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
       modal.style.display = 'flex';
       modal.classList.add('show');
       setTimeout(() => { modal.classList.remove('show'); }, 400);
+    };
+
+    // Mở modal Trash khi double click vào Recycle Bin
+    (function() {
+      const trashIcon = document.querySelector('.trash-icon .icon.folder');
+      if (!trashIcon) return;
+      trashIcon.ondblclick = function() {
+        const modal = document.getElementById('trash-modal');
+        const content = modal.querySelector('.finder-content');
+        content.style.position = 'fixed';
+        content.style.left = '150px';
+        content.style.top = '150px';
+        modal.style.display = 'flex';
+        modal.classList.add('show');
+        setTimeout(() => { modal.classList.remove('show'); }, 400);
+      };
+    })();
+
+    // Right-click context menu for Trash/Recycle Bin
+    (function() {
+      const trashIcon = document.querySelector('.trash-icon .icon.folder');
+      if (!trashIcon) return;
+
+      // Create context menu
+      const contextMenu = document.createElement('div');
+      contextMenu.id = 'trash-context-menu';
+      contextMenu.style.cssText = `
+        position: fixed;
+        display: none;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        min-width: 150px;
+        overflow: hidden;
+      `;
+      contextMenu.innerHTML = `
+        <div style="padding: 8px 0;">
+          <div style="padding: 8px 16px; cursor: pointer; font-size: 13px; color: #222; transition: background 0.1s; font-style: italic; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;" 
+               onmouseover="this.style.background='#f0f0f0'" 
+               onmouseout="this.style.background='transparent'"
+               onclick="restoreAllTrash()">
+            Restore All
+          </div>
+          <div style="padding: 8px 16px; cursor: pointer; font-size: 13px; color: #222; transition: background 0.1s; font-style: italic; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;" 
+               onmouseover="this.style.background='#f0f0f0'" 
+               onmouseout="this.style.background='transparent'"
+               onclick="emptyTrash()">
+            Empty Trash
+          </div>
+        </div>
+      `;
+      document.body.appendChild(contextMenu);
+
+      // Right-click handler
+      trashIcon.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        contextMenu.style.display = 'block';
+        contextMenu.style.left = e.clientX + 'px';
+        contextMenu.style.top = e.clientY + 'px';
+      });
+
+      // Close menu when clicking elsewhere
+      document.addEventListener('click', function(e) {
+        if (e.target !== trashIcon && !contextMenu.contains(e.target)) {
+          contextMenu.style.display = 'none';
+        }
+      });
+    })();
+
+    // Restore all deleted files from trash
+    window.restoreAllTrash = function() {
+      const contextMenu = document.getElementById('trash-context-menu');
+      if (contextMenu) contextMenu.style.display = 'none';
+
+      if (!window.deletedFolders || window.deletedFolders.length === 0) return;
+
+      const desktopIcons = document.querySelector('.desktop-icons');
+      if (!desktopIcons) return;
+
+      // Restore each deleted folder
+      window.deletedFolders.forEach(folderName => {
+        const newFolder = document.createElement('div');
+        newFolder.className = 'icon folder';
+        newFolder.innerHTML = `
+          <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="${folderName}" style="width:68px;height:68px;">
+          <span>${folderName}</span>
+        `;
+        desktopIcons.appendChild(newFolder);
+
+        // Make it draggable like other folders
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        const rect = newFolder.getBoundingClientRect();
+        const containerRect = newFolder.parentElement.getBoundingClientRect();
+        
+        newFolder.style.position = 'absolute';
+        newFolder.style.left = (rect.left - containerRect.left) + 'px';
+        newFolder.style.top = (rect.top - containerRect.top) + 'px';
+        newFolder.style.cursor = 'move';
+        
+        newFolder.addEventListener('mousedown', function(e) {
+          isDragging = true;
+          const rect = newFolder.getBoundingClientRect();
+          dragOffsetX = e.clientX - rect.left;
+          dragOffsetY = e.clientY - rect.top;
+          
+          newFolder.style.transition = 'transform 0.2s';
+          newFolder.style.transform = 'scale(1.05)';
+          newFolder.style.zIndex = '1000';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+          if (isDragging) {
+            let left = e.clientX - dragOffsetX;
+            let top = e.clientY - dragOffsetY;
+            
+            left = Math.max(0, Math.min(window.innerWidth - newFolder.offsetWidth, left));
+            top = Math.max(0, Math.min(window.innerHeight - newFolder.offsetHeight, top));
+            
+            newFolder.style.left = left + 'px';
+            newFolder.style.top = top + 'px';
+          }
+        });
+
+        document.addEventListener('mouseup', function() {
+          if (isDragging) {
+            isDragging = false;
+            newFolder.style.transform = 'scale(1)';
+            newFolder.style.zIndex = '1';
+          }
+        });
+
+        newFolder.draggable = true;
+        newFolder.addEventListener('dragstart', function(e) {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/html', newFolder.innerHTML);
+          newFolder.classList.add('dragging-folder');
+        });
+        newFolder.addEventListener('dragend', function(e) {
+          newFolder.classList.remove('dragging-folder');
+        });
+
+        // Add dblclick handler to open modal
+        newFolder.addEventListener('dblclick', function(e) {
+          if (isDragging) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+          
+          // Open modal for this folder
+          const fname = newFolder.querySelector('span')?.textContent || '';
+          const modalMap = {
+            'About Me': 'aboutme-modal',
+            'ZETA APP': 'finder-modal-02',
+            'BLUES QUIZ - CHELSEA FC X FPT': 'finder-modal',
+            'FUKUOKA SOFTBANK HAWKS GAMING WEBSITE': 'finder-modal-03',
+            'JOB AND RECRUITMENT': 'finder-modal-04',
+            'MINI GAME': 'minigame-modal'
+          };
+          
+          if (modalMap[fname]) {
+            const modalId = modalMap[fname];
+            const modal = document.getElementById(modalId);
+            if (modal) {
+              const content = modal.querySelector('.finder-content');
+              if (content) {
+                content.style.position = 'fixed';
+                content.style.left = content.style.left || '150px';
+                content.style.top = content.style.top || '150px';
+              }
+              modal.style.display = 'flex';
+              modal.classList.add('show');
+              setTimeout(() => { modal.classList.remove('show'); }, 400);
+            }
+          }
+        });
+      });
+
+      // Clear deleted folders array
+      window.deletedFolders = [];
+
+      // Change trash icon back to trash.avif
+      const recycleBin = document.querySelector('.trash-icon .icon.folder');
+      const trashImg = recycleBin.querySelector('img');
+      if (trashImg) {
+        trashImg.src = 'img/trash.avif';
+      }
+
+      // Update trash modal
+      if (window.updateTrashModal) {
+        updateTrashModal();
+      }
+    };
+
+    // Empty trash (delete all files permanently)
+    window.emptyTrash = function() {
+      const contextMenu = document.getElementById('trash-context-menu');
+      if (contextMenu) contextMenu.style.display = 'none';
+
+      window.deletedFolders = [];
+
+      const recycleBin = document.querySelector('.trash-icon .icon.folder');
+      const trashImg = recycleBin.querySelector('img');
+      if (trashImg) {
+        trashImg.src = 'img/trash.avif';
+      }
+
+      if (window.updateTrashModal) {
+        updateTrashModal();
+      }
     };
 
     // Open Resume PDF when clicking or activating the desktop Resume icon
@@ -985,6 +1862,36 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
     setInterval(updateNavDate, 1000);
   </script>
   <!-- Presence and view-counting scripts removed per user request -->
+  <script>
+    // Loading overlay control: hide when page fully loaded
+    (function() {
+      const overlay = document.getElementById('loading-overlay');
+      if (!overlay) return;
+
+      function hideOverlay() {
+        try {
+          overlay.classList.add('hidden');
+          // remove from layout after transition so it's not focusable
+          setTimeout(() => { overlay.style.display = 'none'; overlay.setAttribute('aria-hidden','true'); }, 320);
+        } catch (e) { overlay.style.display = 'none'; overlay.setAttribute('aria-hidden','true'); }
+      }
+
+      // If the page is already loaded, hide immediately
+      if (document.readyState === 'complete') return hideOverlay();
+      // Hide when load event fires
+      window.addEventListener('load', hideOverlay);
+
+      // When coming back from bfcache (back/forward), ensure overlay is visible then hidden
+      window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+          overlay.style.display = 'flex';
+          overlay.classList.remove('hidden');
+          // hide again after next paint/load
+          requestAnimationFrame(() => setTimeout(hideOverlay, 60));
+        }
+      });
+    })();
+  </script>
 </body>
 
 </html>
