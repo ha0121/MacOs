@@ -147,6 +147,7 @@
   border-radius: 6px;
   font-size: 14px;
   margin-top: 6px;
+  font-weight: 500;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
   position: relative;
   z-index: 2;
@@ -172,6 +173,7 @@
   display: inline-block;
   min-width: 76px;
   text-align: center;
+  font-weight: 700;
 }
 /* Hiện text in nghiêng khi hover vào icon project */
 .desktop-icons .icon.folder:hover::after {
@@ -1155,3 +1157,106 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(-4px) scale(1);
 }
+
+/* Loading overlay (shown on initial load / refresh). Covers viewport and dims background */
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+  transition: opacity 260ms ease, visibility 260ms ease;
+  opacity: 1;
+  visibility: visible;
+}
+
+#loading-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-box { text-align: center; color: #fff; font-family: inherit; }
+.loading-text { font-size: 14px; margin-top: 10px; color: #fff; opacity: 0.95 }
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.18);
+  border-top-color: #ffffff;
+  animation: loading-spin 900ms linear infinite;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+@keyframes loading-spin { to { transform: rotate(360deg); } }
+
+/* Mobile / small-screen responsive tweaks
+   - hide the dock to free vertical space
+   - convert desktop icons to a responsive grid/row
+   - scale down title and adjust spacing
+*/
+@media (max-width: 800px) {
+  .dock {
+    display: none !important;
+  }
+
+  /* make center title slightly higher and scale text for small screens */
+  .center-title {
+    top: 34%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 12px;
+    z-index: 40;
+  }
+  .center-title .center-subtitle { font-size: 16px; }
+  .center-title h1 { font-size: 30px; line-height: 1.05; }
+
+  /* Stack desktop icons into a responsive row/flow instead of absolutely positioned
+     so icons adapt to narrow widths and remain accessible. */
+  .desktop-icons {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 18px 12px 120px; /* leave space at bottom for touch interactions */
+  }
+  .desktop-icons .icon {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 72px;
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 6px;
+  }
+  .desktop-icons .icon img { width: 56px !important; height: 56px !important; }
+  .desktop-icons .icon span { font-size: 12px; padding: 4px 6px; min-width: auto; }
+
+  /* Ensure modals / finder scale to viewport nicely on mobile */
+  .finder-content {
+    width: calc(100vw - 24px) !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 200px !important;
+    border-radius: 12px !important;
+    margin: 12px !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+  }
+}
+
+.trash-icon .icon.folder {
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+
+.trash-icon .icon.folder:hover {
+  transform: scale(1.1);
+}
+
