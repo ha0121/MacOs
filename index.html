@@ -310,6 +310,7 @@
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>
   </button>
+
   <div class="sticky-note">
     <b>To do (2026 update):</b>
     <ul>
@@ -354,14 +355,10 @@
       <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="Project 04" style="width:68px;height:68px;">
       <span>JOB AND RECRUITMENT</span>
     </div>
-    <div class="icon folder" id="minigame-icon">
-      <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="Mini Game" style="width:68px;height:68px;">
-      <span>MINI GAME</span>
-    </div>
     <div class="trash-icon">
       <div class="icon folder">
       <img loading="lazy" src="img/trash.avif" alt="Project 04" style="width:68px;height:68px;">
-      <span>Trash</span>
+      <span>Recycle Bin</span>
     </div>
     </div>
     <!-- <div class="icon trash">
@@ -397,7 +394,6 @@
   <script src="script.js"></script>
 
   <script>
-    // Dark mode toggle
     (function() {
       const toggleBtn = document.getElementById('dark-mode-toggle');
       const lightIcon = document.getElementById('light-icon');
@@ -447,7 +443,7 @@
   </script>
 
   <script>
-    // Drawing canvas with right-click drag and left-click erase
+    // Drawing canvas with right-click drag and left-click erase + Ctrl+Z undo
     (function() {
       const canvas = document.getElementById('drawing-canvas');
       const ctx = canvas.getContext('2d');
@@ -455,6 +451,10 @@
       let isErasing = false;
       let lastX = 0;
       let lastY = 0;
+      
+      // Undo history
+      const history = [];
+      const maxHistorySteps = 50;
 
       // Set canvas size to match window
       function resizeCanvas() {
@@ -463,6 +463,30 @@
       }
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
+
+      // Save current canvas state to history
+      function saveState() {
+        history.push(canvas.toDataURL());
+        if (history.length > maxHistorySteps) {
+          history.shift();
+        }
+      }
+
+      // Undo last action
+      function undo() {
+        if (history.length > 0) {
+          const imageData = history.pop();
+          const img = new Image();
+          img.src = imageData;
+          img.onload = function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+          };
+        } else {
+          // Clear canvas if no history
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
 
       // Left-click or Right-click
       document.addEventListener('mousedown', function(e) {
@@ -473,10 +497,14 @@
           isDrawing = true;
           lastX = e.clientX;
           lastY = e.clientY;
+          // Save state before starting to draw
+          saveState();
         } else if (e.button === 0) { // Left-click: erase
           isErasing = true;
           lastX = e.clientX;
           lastY = e.clientY;
+          // Save state before starting to erase
+          saveState();
         }
       });
 
@@ -509,6 +537,14 @@
           isDrawing = false;
         } else if (e.button === 0) {
           isErasing = false;
+        }
+      });
+
+      // Ctrl+Z for undo
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+          e.preventDefault();
+          undo();
         }
       });
 
@@ -589,8 +625,7 @@
             'ZETA APP': 'finder-modal-02',
             'BLUES QUIZ - CHELSEA FC X FPT': 'finder-modal',
             'FUKUOKA SOFTBANK HAWKS GAMING WEBSITE': 'finder-modal-03',
-            'JOB AND RECRUITMENT': 'finder-modal-04',
-            'MINI GAME': 'minigame-modal'
+            'JOB AND RECRUITMENT': 'finder-modal-04'
           };
           
           if (modalMap[folderName]) {
@@ -810,8 +845,11 @@
         const trashContent = document.querySelector('#trash-modal .finder-main');
         if (!trashContent) return;
         
+        const currentLang = localStorage.getItem('language') || 'vi';
+        const emptyText = currentLang === 'en' ? 'Trash is empty' : 'Thùng rác trống';
+        
         if (window.deletedFolders.length === 0) {
-          trashContent.innerHTML = '<div style="text-align: center; color: #999; padding: 60px 20px;"><div style="font-size: 14px;">Trash is empty</div></div>';
+          trashContent.innerHTML = `<div style="text-align: center; color: #999; padding: 60px 20px;"><div style="font-size: 14px;">${emptyText}</div></div>`;
         } else {
           let html = '<div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">';
           window.deletedFolders.forEach(folderName => {
@@ -1162,32 +1200,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
   <!-- Modal Spotify -->
   <div id="spotify-modal" class="spotify-modal" style="display:none;">
     <div class="spotify-content">
-<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0BFqbDnUs4LFfNIAulZGhA?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-  </div>
-
-  <!-- Modal Mini Game -->
-  <div id="minigame-modal" class="finder-modal" style="display:none;">
-    <div class="finder-content">
-      <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
-        <span class="finder-dot red"></span>
-        <span class="finder-dot yellow"></span>
-        <span class="finder-dot green"></span>
-        <span class="finder-title">MINI GAME</span>
-      </div>
-      <div class="finder-main">
-        <div class="finder-main-title">MINI GAME<br><span class="finder-sub"></span></div>
-        <div class="finder-description">
-          <p>Coming Soon! A fun mini game experience is being developed.</p>
-          <p><strong>YEAR</strong>: 2026</p>
-          <p><strong>STATUS</strong>: In Development</p>
-          <div class="finder-image" style="margin: 24px 0; text-align: center;">
-            <div style="width: 100%; height: 300px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
-              🎮
-            </div>
-          </div>
-        </div>
-      </div>
+<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5d8Uk4YkS0FhMr4ZfcIkud?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 
@@ -1279,18 +1292,6 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
       setTimeout(() => { modal.classList.remove('show'); }, 400);
     };
 
-    // Mở modal khi double click vào Mini Game
-    document.getElementById('minigame-icon').ondblclick = function() {
-      const modal = document.getElementById('minigame-modal');
-      const content = modal.querySelector('.finder-content');
-      content.style.position = '';
-      content.style.left = '';
-      content.style.top = '';
-      modal.style.display = 'flex';
-      modal.classList.add('show');
-      setTimeout(() => { modal.classList.remove('show'); }, 400);
-    };
-
     // Đóng modal khi click ra ngoài nội dung cho About Me
     document.getElementById('aboutme-modal').onclick = function(e) {
       if (e.target === this) {
@@ -1357,17 +1358,6 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
           }, 350);
         }
       };
-      // Đóng modal khi click ra ngoài nội dung cho Mini Game
-      document.getElementById('minigame-modal').onclick = function(e) {
-        if (e.target === this) {
-          const modal = this;
-          modal.classList.add('hide');
-          setTimeout(() => {
-            modal.classList.remove('hide');
-            modal.style.display = 'none';
-          }, 350);
-        }
-      };
       // Đóng modal khi click ra ngoài nội dung cho Trash
       document.getElementById('trash-modal').onclick = function(e) {
         if (e.target === this) {
@@ -1381,7 +1371,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
       };
 
     // Kéo thả cho tất cả các modal Finder và About Me
-    ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'minigame-modal', 'trash-modal'].forEach(function(modalId) {
+    ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'trash-modal'].forEach(function(modalId) {
       const modal = document.getElementById(modalId);
       if (!modal) return;
       const content = modal.querySelector('.finder-content');
@@ -1491,7 +1481,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
         });
       }
 
-      ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'minigame-modal', 'trash-modal'].forEach(function(id) {
+      ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'trash-modal'].forEach(function(id) {
         const modal = document.getElementById(id);
         if (!modal) return;
         initFinderControls(modal);
@@ -1665,8 +1655,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
             'ZETA APP': 'finder-modal-02',
             'BLUES QUIZ - CHELSEA FC X FPT': 'finder-modal',
             'FUKUOKA SOFTBANK HAWKS GAMING WEBSITE': 'finder-modal-03',
-            'JOB AND RECRUITMENT': 'finder-modal-04',
-            'MINI GAME': 'minigame-modal'
+            'JOB AND RECRUITMENT': 'finder-modal-04'
           };
           
           if (modalMap[fname]) {
