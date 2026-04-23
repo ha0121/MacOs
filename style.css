@@ -566,6 +566,17 @@ body {
   min-height: 100vh;
   position: relative;
 }
+
+/* Remove default text selection color */
+::selection {
+  background-color: transparent;
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: transparent;
+  color: inherit;
+}
 .grid-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
