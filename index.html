@@ -35,7 +35,7 @@
   <!-- <img class="apple-logo" src="img/apple2.svg" alt="Apple Logo" style="height:20px;vertical-align:middle;"> -->
     <!-- <a href="#" class="nav-title">Hao Nguyen Portfolio</a> -->
   <a href="https://www.linkedin.com/in/nguy%E1%BB%85n-anh-h%C3%A0o-4302a9223/" class="nav-link" target="_blank" rel="noopener noreferrer" style="font-size:13px;text-decoration:underline;">LINKEDIN</a>
-  <a href="https://drive.google.com/file/d/1e2FY9Wx6pgZzLSLoNuh5LDAbMNZ0wBGI/view" class="nav-link" target="_blank" rel="noopener noreferrer" style="font-size:13px;text-decoration:underline;">RESUME</a>
+  <a href="#" class="nav-link" aria-disabled="true" onclick="return false;" style="font-size:13px;text-decoration:underline; pointer-events:none; opacity:0.6; cursor:not-allowed;">RESUME</a>
   <a href="mailto:haonguyenanh03@gmail.com" class="nav-link" target="_blank" rel="noopener noreferrer" style="font-size:13px;text-decoration:underline;">EMAIL</a>
   <span class="nav-right">
       <span class="nav-icons">
@@ -80,10 +80,6 @@
     <div class="icon folder">
       <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="About Me" style="width:68px;height:68px;">
       <span>About Me</span>
-    </div>
-    <div class="icon folder" data-tooltip="ZETA APP">
-      <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="Project 02" style="width:68px;height:68px;">
-      <span>ZETA APP</span>
     </div>
     <div class="icon folder" id="project01-icon" data-tooltip="BLUES QUIZ - CHELSEA FC X FPT">
       <img loading="lazy" src="img/macos_big_sur_wpaper_folder_icon_186058.png" alt="Project 01" style="width:68px;height:68px;">
@@ -315,7 +311,6 @@
           const folderName = folder.querySelector('span')?.textContent || '';
           const modalMap = {
             'About Me': 'aboutme-modal',
-            'ZETA APP': 'finder-modal-02',
             'BLUES QUIZ - CHELSEA FC X FPT': 'finder-modal',
             'FUKUOKA SOFTBANK HAWKS GAMING WEBSITE': 'finder-modal-03',
             'JOB AND RECRUITMENT': 'finder-modal-04'
@@ -767,30 +762,6 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
         </div>
       </div>
 
-    <!-- Modal Finder cho Project 02 -->
-    <div id="finder-modal-02" class="finder-modal" style="display:none;">
-      <div class="finder-content">
-        <div class="finder-header" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
-          <span class="finder-dot red"></span>
-          <span class="finder-dot yellow"></span>
-          <span class="finder-dot green"></span>
-          <span class="finder-title">ZETA APPLICATION</span>
-        </div>
-        <div class="finder-main">
-          <div class="finder-main-title">ZETA APPLICATION<br><span class="finder-sub"></span></div>
-          <div class="finder-description">
-            <p>Zeta Application is a popular payment processing platform that can be used to integrate payments into various applications, including food delivery, driver services, and grocery shipping.</p>
-            <p><strong>YEAR</strong>: 2024</p>
-            <p><strong>TOOLS</strong>: Figma, Adobe Photoshop</p>
-            <div class="finder-image" style="margin: 24px 0; text-align: left;">
-              <img src="img/img-project1.jpg" alt="Simplingo Demo" style="max-width: 1200px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #ccc;">
-              <img src="img/beta.png" alt="Simplingo Demo" style="max-width: 1200px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px #ccc;">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Modal Finder cho Project 03 -->
     <div id="finder-modal-03" class="finder-modal" style="display:none;">
       <div class="finder-content">
@@ -949,20 +920,8 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
       setTimeout(() => { modal.classList.remove('show'); }, 400);
     };
 
-    // Mở modal khi double click vào Project 02
-    document.querySelector('.desktop-icons .icon.folder:nth-child(3)').ondblclick = function() {
-      const modal = document.getElementById('finder-modal-02');
-      const content = modal.querySelector('.finder-content');
-      content.style.position = '';
-      content.style.left = '';
-      content.style.top = '';
-      modal.style.display = 'flex';
-      modal.classList.add('show');
-      setTimeout(() => { modal.classList.remove('show'); }, 400);
-    };
-
     // Mở modal khi double click vào Project 03
-    document.querySelector('.desktop-icons .icon.folder:nth-child(5)').ondblclick = function() {
+    document.querySelector('.desktop-icons .icon.folder:nth-child(4)').ondblclick = function() {
       const modal = document.getElementById('finder-modal-03');
       const content = modal.querySelector('.finder-content');
       content.style.position = '';
@@ -974,7 +933,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
     };
 
     // Mở modal khi double click vào Project 04
-    document.querySelector('.desktop-icons .icon.folder:nth-child(6)').ondblclick = function() {
+    document.querySelector('.desktop-icons .icon.folder:nth-child(5)').ondblclick = function() {
       const modal = document.getElementById('finder-modal-04');
       const content = modal.querySelector('.finder-content');
       content.style.position = '';
@@ -1018,17 +977,6 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
         }, 350);
       }
     };
-      // Đóng modal khi click ra ngoài nội dung cho Project 02
-      document.getElementById('finder-modal-02').onclick = function(e) {
-        if (e.target === this) {
-          const modal = this;
-          modal.classList.add('hide');
-          setTimeout(() => {
-            modal.classList.remove('hide');
-            modal.style.display = 'none';
-          }, 350);
-        }
-      };
       // Đóng modal khi click ra ngoài nội dung cho Project 03
       document.getElementById('finder-modal-03').onclick = function(e) {
         if (e.target === this) {
@@ -1064,7 +1012,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
       };
 
     // Kéo thả cho tất cả các modal Finder và About Me
-    ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'trash-modal'].forEach(function(modalId) {
+    ['aboutme-modal', 'finder-modal', 'finder-modal-03', 'finder-modal-04', 'trash-modal'].forEach(function(modalId) {
       const modal = document.getElementById(modalId);
       if (!modal) return;
       const content = modal.querySelector('.finder-content');
@@ -1174,7 +1122,7 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
         });
       }
 
-      ['aboutme-modal', 'finder-modal', 'finder-modal-02', 'finder-modal-03', 'finder-modal-04', 'trash-modal'].forEach(function(id) {
+      ['aboutme-modal', 'finder-modal', 'finder-modal-03', 'finder-modal-04', 'trash-modal'].forEach(function(id) {
         const modal = document.getElementById(id);
         if (!modal) return;
         initFinderControls(modal);
@@ -1345,7 +1293,6 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
           const fname = newFolder.querySelector('span')?.textContent || '';
           const modalMap = {
             'About Me': 'aboutme-modal',
-            'ZETA APP': 'finder-modal-02',
             'BLUES QUIZ - CHELSEA FC X FPT': 'finder-modal',
             'FUKUOKA SOFTBANK HAWKS GAMING WEBSITE': 'finder-modal-03',
             'JOB AND RECRUITMENT': 'finder-modal-04'
@@ -1407,34 +1354,19 @@ Beyond the pixels, I’m passionate about mindful living, creative collaboration
     (function() {
       const resumeIcon = document.getElementById('resume-icon');
       if (!resumeIcon) return;
-      const resumeUrl = 'https://drive.google.com/file/d/1e2FY9Wx6pgZzLSLoNuh5LDAbMNZ0wBGI/view';
-      let moved = false;
 
-      // prevent accidental navigation while dragging
-      resumeIcon.addEventListener('mousedown', function() { moved = false; });
-      document.addEventListener('mousemove', function() { moved = true; });
-      document.addEventListener('mouseup', function() { moved = false; });
-
-      function openResume() {
-        if (moved) return; // skip if being dragged
-        try {
-          window.open(resumeUrl, '_blank', 'noopener');
-        } catch (e) {
-          // fallback: set location (will reuse tab)
-          window.location.href = resumeUrl;
-        }
-      }
-
+      resumeIcon.style.pointerEvents = 'none';
+      resumeIcon.style.opacity = '0.6';
+      resumeIcon.style.cursor = 'not-allowed';
+      resumeIcon.setAttribute('aria-disabled', 'true');
       resumeIcon.addEventListener('click', function(e) {
         e.preventDefault();
-        openResume();
+        e.stopPropagation();
       });
-
-      // Allow Enter and Space to activate
       resumeIcon.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          openResume();
+          e.stopPropagation();
         }
       });
     })();
