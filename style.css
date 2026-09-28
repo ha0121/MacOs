@@ -199,16 +199,13 @@
 .desktop-icons .icon.folder:nth-child(2) {
   left: 12%; top: 62%; /* About Me (left cluster) */
 }
-.desktop-icons .icon.folder:nth-child(3) {
-  left: 84%; top: 12%; /* ZETA APP (top-right) */
-}
 .desktop-icons .icon.folder#project01-icon {
   left: 60%; top: 70%; /* BLUES QUIZ - lower-right cluster */
 }
-.desktop-icons .icon.folder:nth-child(5) {
-  left: 88%; top: 48%; /* FUKUOKA (far right) */
+.desktop-icons .icon.folder:nth-child(4) {
+  left: 82%; top: 46%; /* FUKUOKA (far right) */
 }
-.desktop-icons .icon.folder:nth-child(6) {
+.desktop-icons .icon.folder:nth-child(5) {
   left: 66%; top: 28%; /* JOB AND RECRUITMENT (right cluster) */
 }
 .desktop-icons .icon.folder:nth-child(7) {
@@ -218,6 +215,18 @@
   right: 2%; bottom: 8%; /* fallback trash at bottom-right if used */
   left: auto;
   top: auto;
+}
+
+.trash-icon {
+  position: absolute;
+  left: 88%;
+  top: 62%;
+}
+
+.trash-icon .icon.folder {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 /* Modal Spotify */
 .spotify-modal {
